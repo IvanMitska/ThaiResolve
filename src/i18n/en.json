@@ -1,0 +1,239 @@
+{
+  "nav": {
+    "services": "Services",
+    "howItWorks": "How It Works",
+    "faq": "FAQ",
+    "getHelp": "Get Help"
+  },
+  "hero": {
+    "title": "Been scammed in Thailand?",
+    "titleAccent": "We'll fix it.",
+    "subtitle": "Professional support backed by a network of lawyers, mediators, and consultants",
+    "cta": "Get Help",
+    "badge": "Serving all of Thailand",
+    "stats": {
+      "cases": "cases",
+      "response": "response",
+      "success": "success rate"
+    }
+  },
+  "services": {
+    "label": "What we do",
+    "title": "We solve problems",
+    "details": "Learn more",
+    "fraud": {
+      "title": "Fraud",
+      "subtitle": "Scams in purchases, rentals, services"
+    },
+    "rental": {
+      "title": "Rental Disputes",
+      "subtitle": "Deposits, evictions, damages"
+    },
+    "accident": {
+      "title": "Traffic & Insurance",
+      "subtitle": "Accidents, claims, settlements"
+    },
+    "police": {
+      "title": "Police Issues",
+      "subtitle": "Detention, fines, confiscation"
+    },
+    "medical": {
+      "title": "Medical Disputes",
+      "subtitle": "Bills, treatment quality, insurance"
+    },
+    "business": {
+      "title": "Business Conflicts",
+      "subtitle": "Partners, contracts, debts"
+    }
+  },
+  "advantages": {
+    "label": "Why us",
+    "title": "Our Advantages",
+    "network": {
+      "title": "Partner Network",
+      "description": "Licensed lawyers, mediators, translators, specialized consultants"
+    },
+    "system": {
+      "title": "System Knowledge",
+      "description": "Years of experience navigating Thai procedures and institutions"
+    },
+    "speed": {
+      "title": "Fast Response",
+      "description": "Reply within 1 hour, emergencies — same-day dispatch"
+    },
+    "privacy": {
+      "title": "Confidentiality",
+      "description": "Complete privacy, information is never shared with third parties"
+    }
+  },
+  "steps": {
+    "label": "Process",
+    "title": "How It Works",
+    "request": {
+      "title": "Request",
+      "description": "Describe your situation via form — takes 2 minutes"
+    },
+    "evaluation": {
+      "title": "Evaluation",
+      "description": "We'll contact you within an hour, assess chances and options — free"
+    },
+    "strategy": {
+      "title": "Strategy",
+      "description": "We'll propose an action plan with transparent pricing"
+    },
+    "result": {
+      "title": "Result",
+      "description": "We work until resolution, keeping you informed at every step"
+    }
+  },
+  "faq": {
+    "label": "Questions",
+    "title": "FAQ",
+    "legal": {
+      "question": "Is this legal?",
+      "answer": "Yes, we operate fully within the legal framework. Legal services are provided through licensed partners — Thai lawyers with valid licenses. We act as consultants and intermediaries."
+    },
+    "cost": {
+      "question": "How much does it cost?",
+      "answer": "Initial assessment is free. After analysis, we provide exact pricing before starting work. No hidden fees or surprises."
+    },
+    "speed": {
+      "question": "How fast do you respond?",
+      "answer": "During working hours — within 1 hour. Emergency cases (detention, accidents) — 24/7, same-day dispatch."
+    },
+    "remote": {
+      "question": "I was scammed remotely, can you help?",
+      "answer": "Yes, we handle remote cases if the fraud involves Thailand — Thai accounts, companies, residents. Many issues can be resolved without physical presence."
+    },
+    "guarantee": {
+      "question": "What guarantees do you offer?",
+      "answer": "We provide honest assessment before starting work. We don't take money for hopeless cases. If we can't help — we'll tell you directly."
+    },
+    "foreigners": {
+      "question": "Do you work with foreigners?",
+      "answer": "Yes, we consult in English. We help expats from any country facing problems in Thailand."
+    }
+  },
+  "form": {
+    "label": "Request",
+    "title": "Describe Your Situation",
+    "subtitle": "Fill out the form and we'll contact you within an hour",
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "How should we address you",
+      "serviceType": "Problem Type",
+      "serviceTypePlaceholder": "Select type",
+      "messenger": "Messenger for Contact",
+      "messengerPlaceholder": "Select messenger",
+      "contact": "Contact",
+      "contactPlaceholder": "@username or number",
+      "city": "City in Thailand",
+      "cityPlaceholder": "Select city",
+      "description": "Situation Description",
+      "descriptionPlaceholder": "Tell us what happened. More details = better assessment",
+      "files": "Attach Files",
+      "filesHint": "Up to 5 files (JPG, PNG, PDF), up to 10 MB each",
+      "consent": "I agree to the processing of personal data",
+      "submit": "Submit Request"
+    },
+    "fraud": {
+      "title": "Fraud Details",
+      "type": "Fraud Type",
+      "typePlaceholder": "Select type",
+      "amount": "Damage Amount",
+      "amountPlaceholder": "0",
+      "currency": "Currency",
+      "evidence": "Have evidence",
+      "types": {
+        "purchase": "Purchase",
+        "rental": "Rental",
+        "investment": "Investment",
+        "online_scam": "Online Scam",
+        "crypto": "Crypto",
+        "other": "Other"
+      }
+    },
+    "rental": {
+      "title": "Rental Details",
+      "propertyType": "Property Type",
+      "propertyTypePlaceholder": "Select type",
+      "depositAmount": "Deposit Amount (THB)",
+      "depositPlaceholder": "0",
+      "hasContract": "Have contract",
+      "types": {
+        "apartment": "Apartment",
+        "house": "House",
+        "vehicle": "Motorcycle/Car",
+        "other": "Other"
+      }
+    },
+    "accident": {
+      "title": "Accident Details",
+      "date": "Incident Date",
+      "hasPoliceReport": "Have police report",
+      "hasInsurance": "Have insurance",
+      "insuranceCompany": "Insurance Company",
+      "insurancePlaceholder": "Company name"
+    },
+    "police": {
+      "title": "Situation Details",
+      "situationType": "Situation Type",
+      "situationTypePlaceholder": "Select type",
+      "eventDate": "Event Date",
+      "hasProtocol": "Have protocol",
+      "types": {
+        "detention": "Detention",
+        "fine": "Fine",
+        "confiscation": "Confiscation",
+        "overstay": "Visa Overstay",
+        "other": "Other"
+      }
+    },
+    "medical": {
+      "title": "Dispute Details",
+      "clinicName": "Clinic / Hospital",
+      "clinicPlaceholder": "Name",
+      "disputeAmount": "Dispute Amount (THB)",
+      "disputePlaceholder": "0",
+      "hasDocuments": "Have medical documents"
+    },
+    "business": {
+      "title": "Conflict Details",
+      "businessSphere": "Business Sphere",
+      "businessPlaceholder": "e.g.: restaurant, IT",
+      "disputeAmount": "Dispute Amount (THB)",
+      "disputePlaceholder": "0",
+      "hasDocuments": "Have contract / founding docs"
+    },
+    "validation": {
+      "nameRequired": "Enter your name",
+      "nameMin": "Minimum 2 characters",
+      "serviceRequired": "Select problem type",
+      "messengerRequired": "Select messenger",
+      "contactRequired": "Enter contact",
+      "cityRequired": "Select city",
+      "descriptionRequired": "Describe the situation",
+      "descriptionMin": "Minimum 20 characters",
+      "consentRequired": "Consent is required"
+    }
+  },
+  "success": {
+    "title": "Request Submitted",
+    "message": "We'll contact you within 1 hour",
+    "contact": "Or reach out directly:"
+  },
+  "error": {
+    "title": "Submission Error",
+    "message": "Try again or contact us directly:",
+    "retry": "Try Again"
+  },
+  "footer": {
+    "disclaimer": "Service provides informational and intermediary support. Legal services are provided by licensed partners.",
+    "copyright": "© 2026 ThaiResolve"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "other": "Other"
+  }
+}
