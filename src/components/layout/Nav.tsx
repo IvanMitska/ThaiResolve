@@ -1,16 +1,35 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
+
+const languages = [
+  { code: 'ru', label: 'RU', name: 'Русский' },
+  { code: 'en', label: 'EN', name: 'English' },
+  { code: 'th', label: 'TH', name: 'ไทย' },
+];
 
 export const Nav = memo(function Nav() {
   const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close language menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+        setIsLangMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Prevent body scroll when menu is open
@@ -25,11 +44,13 @@ export const Nav = memo(function Nav() {
     };
   }, [isMobileMenuOpen]);
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'ru' ? 'en' : 'ru';
-    i18n.changeLanguage(newLang);
-    localStorage.setItem('lang', newLang);
+  const changeLanguage = (langCode: string) => {
+    i18n.changeLanguage(langCode);
+    localStorage.setItem('lang', langCode);
+    setIsLangMenuOpen(false);
   };
+
+  const currentLang = languages.find(l => l.code === i18n.language) || languages[0];
 
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
@@ -121,26 +142,91 @@ export const Nav = memo(function Nav() {
 
             {/* Right side */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 101 }}>
-              {/* Language */}
-              <button
-                onClick={toggleLanguage}
-                className="lang-btn"
-                style={{
-                  padding: '8px 16px',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  color: isScrolled || isMobileMenuOpen ? '#5A6B6B' : 'rgba(255, 255, 255, 0.8)',
-                  background: 'transparent',
-                  border: isScrolled || isMobileMenuOpen ? '1px solid #E5E8E8' : '1px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '20px',
-                  cursor: 'pointer',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                {i18n.language === 'ru' ? 'EN' : 'RU'}
-              </button>
+              {/* Language Dropdown */}
+              <div ref={langMenuRef} style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  className="lang-btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '8px 12px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    color: isScrolled || isMobileMenuOpen ? '#5A6B6B' : 'rgba(255, 255, 255, 0.8)',
+                    background: 'transparent',
+                    border: isScrolled || isMobileMenuOpen ? '1px solid #E5E8E8' : '1px solid rgba(255, 255, 255, 0.3)',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  {currentLang.label}
+                  <ChevronDown
+                    size={14}
+                    style={{
+                      transform: isLangMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease',
+                    }}
+                  />
+                </button>
+
+                {/* Dropdown Menu */}
+                {isLangMenuOpen && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '8px',
+                      background: '#FFFFFF',
+                      borderRadius: '12px',
+                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                      overflow: 'hidden',
+                      minWidth: '120px',
+                      zIndex: 1000,
+                    }}
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => changeLanguage(lang.code)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '12px 16px',
+                          fontSize: '13px',
+                          fontWeight: currentLang.code === lang.code ? 600 : 400,
+                          color: currentLang.code === lang.code ? '#1E3A3A' : '#5A6B6B',
+                          background: currentLang.code === lang.code ? '#F7F8F7' : 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          transition: 'background 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (currentLang.code !== lang.code) {
+                            e.currentTarget.style.background = '#F7F8F7';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (currentLang.code !== lang.code) {
+                            e.currentTarget.style.background = 'transparent';
+                          }
+                        }}
+                      >
+                        <span style={{ fontWeight: 600, letterSpacing: '0.05em' }}>{lang.label}</span>
+                        <span style={{ opacity: 0.7 }}>{lang.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {/* CTA - Desktop */}
               <button

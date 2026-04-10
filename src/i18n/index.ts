@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 
 import ru from './ru.json';
 import en from './en.json';
+import th from './th.json';
 
 const savedLang = typeof window !== 'undefined'
   ? localStorage.getItem('lang') || 'ru'
@@ -14,6 +15,7 @@ i18n
     resources: {
       ru: { translation: ru },
       en: { translation: en },
+      th: { translation: th },
     },
     lng: savedLang,
     fallbackLng: 'ru',
