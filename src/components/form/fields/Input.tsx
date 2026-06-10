@@ -14,7 +14,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           style={{
             fontSize: '12px',
             fontWeight: 600,
-            color: '#1E3A3A',
+            color: 'var(--text-primary)',
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
           }}
@@ -27,16 +27,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             width: '100%',
             padding: '14px 16px',
             background: '#FFFFFF',
-            border: error ? '1px solid #C4544A' : '1px solid #E5E8E8',
+            border: error ? '1px solid var(--error)' : '1px solid var(--border)',
             borderRadius: '8px',
-            color: '#1E3A3A',
+            color: 'var(--text-primary)',
             fontSize: '14px',
             outline: 'none',
           }}
           {...props}
         />
         {error && (
-          <p style={{ fontSize: '13px', color: '#C4544A' }}>
+          <p style={{ fontSize: '13px', color: 'var(--error)' }}>
             {error}
           </p>
         )}

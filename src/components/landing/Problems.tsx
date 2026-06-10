@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Shield, AlertTriangle, Briefcase } from 'lucide-react';
+import { ArrowRight, AlertTriangle, Briefcase } from 'lucide-react';
 import { useInView } from '../../hooks/useInView';
 import { services } from '../../config/services';
 import type { ServiceType } from '../../types';
@@ -11,7 +11,6 @@ interface ProblemsProps {
 
 const icons: Record<string, React.ElementType> = {
   fraud: AlertTriangle,
-  police: Shield,
   business: Briefcase,
 };
 
@@ -33,7 +32,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
       ref={ref}
       style={{
         padding: '120px 0',
-        background: '#FFFFFF',
+        position: 'relative',
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
@@ -49,7 +48,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
               gap: '16px',
               fontSize: '12px',
               fontWeight: 500,
-              color: '#8A9A9A',
+              color: 'var(--text-muted)',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               marginBottom: '24px',
@@ -59,7 +58,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
               style={{
                 width: '40px',
                 height: '1px',
-                background: '#8A9A9A',
+                background: 'var(--text-muted)',
               }}
             />
             {t('services.label')}
@@ -67,7 +66,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
               style={{
                 width: '40px',
                 height: '1px',
-                background: '#8A9A9A',
+                background: 'var(--text-muted)',
               }}
             />
           </span>
@@ -76,7 +75,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
               fontFamily: "'Montserrat', sans-serif",
               fontSize: 'clamp(28px, 4vw, 48px)',
               fontWeight: 700,
-              color: '#1E3A3A',
+              color: 'var(--text-primary)',
               lineHeight: 1.1,
               textTransform: 'uppercase',
             }}
@@ -106,8 +105,8 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
                   flexDirection: 'column',
                   alignItems: 'flex-start',
                   padding: '32px',
-                  background: '#F7F8F7',
-                  border: '1px solid #E5E8E8',
+                  background: 'rgba(255,255,255,0.88)',
+                  border: '1px solid var(--border)',
                   borderRadius: '16px',
                   cursor: 'pointer',
                   textAlign: 'left',
@@ -120,7 +119,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
                     width: '64px',
                     height: '64px',
                     borderRadius: '16px',
-                    background: '#1E3A3A',
+                    background: 'var(--text-primary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -136,7 +135,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
                     fontFamily: "'Montserrat', sans-serif",
                     fontSize: '18px',
                     fontWeight: 700,
-                    color: '#1E3A3A',
+                    color: 'var(--text-primary)',
                     lineHeight: 1.3,
                     marginBottom: '12px',
                     textTransform: 'uppercase',
@@ -149,7 +148,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
                   style={{
                     fontSize: '15px',
                     fontWeight: 400,
-                    color: '#5A6B6B',
+                    color: 'var(--text-secondary)',
                     lineHeight: 1.6,
                     marginBottom: '24px',
                     flex: 1,
@@ -167,7 +166,7 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
                     gap: '8px',
                     fontSize: '13px',
                     fontWeight: 600,
-                    color: '#1E3A3A',
+                    color: 'var(--text-primary)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                   }}

@@ -20,7 +20,7 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
     <section
       style={{
         padding: '120px 0',
-        background: '#FFFFFF',
+        position: 'relative',
       }}
     >
       <div
@@ -40,14 +40,14 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
             height: '72px',
             margin: '0 auto 28px',
             borderRadius: '50%',
-            background: 'rgba(90, 143, 90, 0.1)',
-            border: '1px solid rgba(90, 143, 90, 0.2)',
+            background: 'var(--text-primary)',
+            border: '1px solid var(--text-primary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Check size={32} color="#5A8F5A" />
+          <Check size={32} color="#FFFFFF" />
         </div>
 
         {/* Title */}
@@ -56,7 +56,7 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: '28px',
             fontWeight: 500,
-            color: '#2C2420',
+            color: 'var(--text-primary)',
             marginBottom: '12px',
           }}
         >
@@ -67,7 +67,7 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
         <p
           style={{
             fontSize: '15px',
-            color: '#5C524A',
+            color: 'var(--text-secondary)',
             marginBottom: '40px',
             lineHeight: 1.6,
           }}
@@ -79,7 +79,7 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
         <p
           style={{
             fontSize: '14px',
-            color: '#8C8078',
+            color: 'var(--text-muted)',
             marginBottom: '16px',
           }}
         >
@@ -96,20 +96,20 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
                 padding: '10px 18px',
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#2C2420',
+                color: 'var(--text-primary)',
                 background: 'transparent',
-                border: '1px solid #E0DAD2',
+                border: '1px solid var(--border)',
                 borderRadius: '8px',
                 textDecoration: 'none',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#C4654A';
-                e.currentTarget.style.color = '#C4654A';
+                e.currentTarget.style.borderColor = 'var(--text-primary)';
+                e.currentTarget.style.color = 'var(--text-primary)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#E0DAD2';
-                e.currentTarget.style.color = '#2C2420';
+                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.color = 'var(--text-primary)';
               }}
             >
               {link.label}
@@ -123,14 +123,14 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
           style={{
             marginTop: '40px',
             fontSize: '14px',
-            color: '#8C8078',
+            color: 'var(--text-muted)',
             background: 'transparent',
             border: 'none',
             cursor: 'pointer',
             transition: 'color 0.3s',
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = '#C4654A')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = '#8C8078')}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
         >
           {t('error.retry')}
         </button>

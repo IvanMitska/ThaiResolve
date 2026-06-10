@@ -7,9 +7,18 @@
     <link rel="apple-touch-icon" href="/favicon-192.png?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Preload hero scene image so it's available before the JS scene mounts. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/scene/hand@2x.webp"
+      imagesrcset="/scene/hand@1x.webp 1x, /scene/hand@2x.webp 2x"
+      fetchpriority="high"
+    />
+
     <!-- SEO Meta Tags -->
     <title>ThaiResolve — Помощь в Таиланде | Мошенничество, юридические вопросы</title>
-    <meta name="description" content="Профессиональная помощь в Таиланде при мошенничестве, арендных спорах, ДТП, проблемах с полицией. Партнёрская сеть юристов и консультантов. Ответ в течение 1 часа." />
+    <meta name="description" content="Профессиональная помощь в Таиланде при мошенничестве, арендных спорах, ДТП. Партнёрская сеть юристов и консультантов. Ответ в течение 1 часа." />
     <meta name="keywords" content="помощь в Таиланде, мошенничество Таиланд, юрист Таиланд, адвокат Пхукет, ДТП Таиланд, аренда Таиланд" />
 
     <!-- Open Graph -->
@@ -39,11 +48,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="/hero-bg.webp" type="image/webp" fetchpriority="high" />
     <link rel="preload" as="font" href="https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM70w5aXp-p7K4KLg.woff2" type="font/woff2" crossorigin />
 
     <!-- Theme color -->
-    <meta name="theme-color" content="#1E3A3A" />
+    <meta name="theme-color" content="#FAFAFA" />
 
     <!-- Critical CSS inline for faster FCP -->
     <style>

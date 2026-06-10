@@ -4,7 +4,7 @@ import type { UseFormRegister, UseFormWatch, UseFormSetValue, FieldErrors } from
 import { Input } from './fields/Input';
 import { Select } from './fields/Select';
 import { Toggle } from './fields/Toggle';
-import { fraudTypes, currencies, policeTypes } from '../../config/services';
+import { fraudTypes, currencies } from '../../config/services';
 import type { ServiceType } from '../../types';
 
 interface DynamicFieldsProps {
@@ -38,7 +38,7 @@ export const DynamicFields = memo(function DynamicFields({
                 fontFamily: "'Montserrat', sans-serif",
                 fontSize: '18px',
                 fontWeight: 600,
-                color: '#1E3A3A',
+                color: 'var(--text-primary)',
               }}
             >
               {t('form.fraud.title')}
@@ -77,44 +77,6 @@ export const DynamicFields = memo(function DynamicFields({
           </div>
         );
 
-      case 'police':
-        return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: '18px',
-                fontWeight: 600,
-                color: '#1E3A3A',
-              }}
-            >
-              {t('form.police.title')}
-            </h4>
-            <Select
-              label={t('form.police.situationType')}
-              placeholder={t('form.police.situationTypePlaceholder')}
-              options={policeTypes.map((type) => ({
-                value: type.value,
-                label: t(type.labelKey),
-              }))}
-              value={watch('extra_fields.situation_type') || ''}
-              onChange={(value) => setValue('extra_fields.situation_type', value)}
-              error={extraErrors?.situation_type?.message as string}
-            />
-            <Input
-              label={t('form.police.eventDate')}
-              type="date"
-              {...register('extra_fields.event_date')}
-              error={extraErrors?.event_date?.message as string}
-            />
-            <Toggle
-              label={t('form.police.hasProtocol')}
-              checked={watch('extra_fields.has_protocol') || false}
-              onChange={(e) => setValue('extra_fields.has_protocol', e.target.checked)}
-            />
-          </div>
-        );
-
       case 'business':
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -123,7 +85,7 @@ export const DynamicFields = memo(function DynamicFields({
                 fontFamily: "'Montserrat', sans-serif",
                 fontSize: '18px',
                 fontWeight: 600,
-                color: '#1E3A3A',
+                color: 'var(--text-primary)',
               }}
             >
               {t('form.business.title')}
@@ -159,8 +121,8 @@ export const DynamicFields = memo(function DynamicFields({
       style={{
         padding: '24px',
         borderRadius: '12px',
-        background: '#FFFFFF',
-        border: '1px solid #E5E8E8',
+        background: 'rgba(255,255,255,0.6)',
+        border: '1px solid var(--border)',
         animation: 'fadeInUp 0.3s ease-out',
       }}
     >

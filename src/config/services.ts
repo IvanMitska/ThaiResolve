@@ -8,14 +8,8 @@ export const services: ServiceConfig[] = [
     subtitleKey: 'services.fraud.subtitle',
   },
   {
-    id: 'police',
-    icon: '02',
-    titleKey: 'services.police.title',
-    subtitleKey: 'services.police.subtitle',
-  },
-  {
     id: 'business',
-    icon: '03',
+    icon: '02',
     titleKey: 'services.business.title',
     subtitleKey: 'services.business.subtitle',
   },
@@ -88,11 +82,3 @@ export const fraudTypes = [
 ];
 
 export const currencies = ['THB', 'USD', 'RUB', 'EUR', 'USDT'];
-
-export const policeTypes = [
-  { value: 'detention', labelKey: 'form.police.types.detention' },
-  { value: 'fine', labelKey: 'form.police.types.fine' },
-  { value: 'confiscation', labelKey: 'form.police.types.confiscation' },
-  { value: 'overstay', labelKey: 'form.police.types.overstay' },
-  { value: 'other', labelKey: 'form.police.types.other' },
-];

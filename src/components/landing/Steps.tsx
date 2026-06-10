@@ -13,7 +13,7 @@ export const Steps = memo(function Steps() {
       ref={ref}
       style={{
         padding: '120px 0',
-        background: '#FFFFFF',
+        position: 'relative',
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
@@ -29,7 +29,7 @@ export const Steps = memo(function Steps() {
               gap: '16px',
               fontSize: '12px',
               fontWeight: 500,
-              color: '#8A9A9A',
+              color: 'var(--text-muted)',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               marginBottom: '24px',
@@ -39,7 +39,7 @@ export const Steps = memo(function Steps() {
               style={{
                 width: '40px',
                 height: '1px',
-                background: '#8A9A9A',
+                background: 'var(--text-muted)',
               }}
             />
             {t('steps.label')}
@@ -49,7 +49,7 @@ export const Steps = memo(function Steps() {
               fontFamily: "'Montserrat', sans-serif",
               fontSize: 'clamp(32px, 5vw, 56px)',
               fontWeight: 700,
-              color: '#1E3A3A',
+              color: 'var(--text-primary)',
               lineHeight: 1.1,
               textTransform: 'uppercase',
               maxWidth: '600px',
@@ -74,8 +74,8 @@ export const Steps = memo(function Steps() {
               className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
               style={{
                 padding: '32px 24px',
-                background: '#F7F8F7',
-                border: '1px solid #E5E8E8',
+                background: 'rgba(255,255,255,0.88)',
+                border: '1px solid var(--border)',
                 borderRadius: '12px',
                 transitionDelay: `${index * 0.15}s`,
               }}
@@ -86,7 +86,7 @@ export const Steps = memo(function Steps() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '56px',
                   fontWeight: 300,
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   lineHeight: 1,
                   marginBottom: '20px',
                 }}
@@ -100,7 +100,7 @@ export const Steps = memo(function Steps() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '14px',
                   fontWeight: 700,
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   marginBottom: '12px',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
@@ -113,7 +113,7 @@ export const Steps = memo(function Steps() {
               <p
                 style={{
                   fontSize: '14px',
-                  color: '#5A6B6B',
+                  color: 'var(--text-secondary)',
                   lineHeight: 1.6,
                 }}
               >

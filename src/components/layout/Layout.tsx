@@ -11,13 +11,15 @@ export function Layout({ children }: LayoutProps) {
     <div
       style={{
         minHeight: '100vh',
-        background: '#F5F2ED',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative',
+        zIndex: 1,
       }}
     >
       <Nav />
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
         {children}
       </main>
       <Footer />

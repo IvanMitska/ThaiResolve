@@ -22,7 +22,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
           style={{
             fontSize: '14px',
             fontWeight: 500,
-            color: '#5C524A',
+            color: 'var(--text-secondary)',
           }}
         >
           {label}
@@ -56,8 +56,8 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
             style={{
               width: '52px',
               height: '28px',
-              background: checked ? 'rgba(196, 101, 74, 0.15)' : '#F5F2ED',
-              border: checked ? '1px solid rgba(196, 101, 74, 0.3)' : '1px solid #E0DAD2',
+              background: checked ? 'var(--text-primary)' : 'var(--bg-primary)',
+              border: '1px solid var(--border)',
               borderRadius: '14px',
               position: 'relative',
               transition: 'all 0.3s ease',
@@ -70,7 +70,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
                 left: checked ? '26px' : '2px',
                 width: '22px',
                 height: '22px',
-                background: checked ? '#C4654A' : '#8C8078',
+                background: checked ? '#FFFFFF' : 'var(--text-muted)',
                 borderRadius: '50%',
                 transition: 'all 0.3s ease',
                 display: 'flex',
@@ -78,7 +78,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
                 justifyContent: 'center',
                 fontSize: '9px',
                 fontWeight: 500,
-                color: checked ? '#FFFFFF' : '#F5F2ED',
+                color: checked ? 'var(--text-primary)' : '#FFFFFF',
               }}
             >
               {checked ? t('common.yes') : t('common.no')}

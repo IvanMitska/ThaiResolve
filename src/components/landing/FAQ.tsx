@@ -19,7 +19,7 @@ export const FAQ = memo(function FAQ() {
       ref={ref}
       style={{
         padding: '120px 0',
-        background: '#F7F8F7',
+        position: 'relative',
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
@@ -45,7 +45,7 @@ export const FAQ = memo(function FAQ() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: 'clamp(32px, 5vw, 48px)',
                   fontWeight: 700,
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   lineHeight: 1.1,
                   textTransform: 'uppercase',
                   marginBottom: '16px',
@@ -56,7 +56,7 @@ export const FAQ = memo(function FAQ() {
               <p
                 style={{
                   fontSize: '15px',
-                  color: '#5A6B6B',
+                  color: 'var(--text-secondary)',
                   lineHeight: 1.6,
                 }}
               >
@@ -73,7 +73,7 @@ export const FAQ = memo(function FAQ() {
                     key={index}
                     className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
                     style={{
-                      borderBottom: '1px solid #E5E8E8',
+                      borderBottom: '1px solid var(--border)',
                       transitionDelay: `${index * 0.08}s`,
                     }}
                   >
@@ -98,7 +98,7 @@ export const FAQ = memo(function FAQ() {
                           fontFamily: "'Montserrat', sans-serif",
                           fontSize: '15px',
                           fontWeight: 600,
-                          color: '#1E3A3A',
+                          color: 'var(--text-primary)',
                           textTransform: 'uppercase',
                           letterSpacing: '0.02em',
                         }}
@@ -112,7 +112,7 @@ export const FAQ = memo(function FAQ() {
                           width: '32px',
                           height: '32px',
                           borderRadius: '50%',
-                          border: '1px solid #E5E8E8',
+                          border: '1px solid var(--border)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -120,9 +120,9 @@ export const FAQ = memo(function FAQ() {
                         }}
                       >
                         {isOpen ? (
-                          <Minus size={14} color="#1E3A3A" />
+                          <Minus size={14} color="var(--text-primary)" />
                         ) : (
-                          <Plus size={14} color="#1E3A3A" />
+                          <Plus size={14} color="var(--text-primary)" />
                         )}
                       </div>
                     </button>
@@ -137,7 +137,7 @@ export const FAQ = memo(function FAQ() {
                         style={{
                           paddingBottom: '24px',
                           fontSize: '14px',
-                          color: '#5A6B6B',
+                          color: 'var(--text-secondary)',
                           lineHeight: 1.7,
                         }}
                       >
@@ -157,8 +157,8 @@ export const FAQ = memo(function FAQ() {
               className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
               style={{
                 padding: '28px',
-                background: '#FFFFFF',
-                border: '1px solid #E5E8E8',
+                background: 'rgba(255,255,255,0.88)',
+                border: '1px solid var(--border)',
                 borderRadius: '12px',
                 transitionDelay: '0.2s',
               }}
@@ -168,7 +168,7 @@ export const FAQ = memo(function FAQ() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '14px',
                   fontWeight: 700,
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   marginBottom: '12px',
@@ -179,14 +179,14 @@ export const FAQ = memo(function FAQ() {
               <p
                 style={{
                   fontSize: '14px',
-                  color: '#5A6B6B',
+                  color: 'var(--text-secondary)',
                   lineHeight: 1.6,
                   marginBottom: '16px',
                 }}
               >
                 {t('faq.whatsappDesc') || 'Quick responses in messenger. Booking, questions, support - all in one chat.'}
               </p>
-              <p style={{ fontSize: '13px', color: '#8A9A9A' }}>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                 {t('faq.instantReply') || 'Instant replies'}
               </p>
             </div>
@@ -196,8 +196,8 @@ export const FAQ = memo(function FAQ() {
               className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
               style={{
                 padding: '28px',
-                background: '#FFFFFF',
-                border: '1px solid #E5E8E8',
+                background: 'rgba(255,255,255,0.88)',
+                border: '1px solid var(--border)',
                 borderRadius: '12px',
                 transitionDelay: '0.3s',
               }}
@@ -207,7 +207,7 @@ export const FAQ = memo(function FAQ() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '14px',
                   fontWeight: 700,
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   marginBottom: '12px',
@@ -218,14 +218,14 @@ export const FAQ = memo(function FAQ() {
               <p
                 style={{
                   fontSize: '14px',
-                  color: '#5A6B6B',
+                  color: 'var(--text-secondary)',
                   lineHeight: 1.6,
                   marginBottom: '16px',
                 }}
               >
                 {t('faq.consultationDesc') || "Individual approach to each case. We'll help find the best solution."}
               </p>
-              <p style={{ fontSize: '13px', color: '#8A9A9A' }}>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                 Thailand
               </p>
             </div>

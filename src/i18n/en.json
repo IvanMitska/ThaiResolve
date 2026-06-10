@@ -6,7 +6,7 @@
     "getHelp": "Get Help"
   },
   "hero": {
-    "title": "Been scammed in Thailand?",
+    "title": "You cam I help",
     "titleAccent": "We'll fix it.",
     "subtitle": "Professional support backed by a network of lawyers, mediators, and consultants",
     "cta": "Get Help",
@@ -32,10 +32,6 @@
     "accident": {
       "title": "Traffic & Insurance",
       "subtitle": "Accidents, claims, settlements"
-    },
-    "police": {
-      "title": "Police Issues",
-      "subtitle": "Detention, fines, confiscation"
     },
     "medical": {
       "title": "Medical Disputes",
@@ -99,7 +95,7 @@
     },
     "speed": {
       "question": "How fast do you respond?",
-      "answer": "During working hours — within 1 hour. Emergency cases (detention, accidents) — 24/7, same-day dispatch."
+      "answer": "During working hours — within 1 hour. Emergency cases — 24/7, same-day dispatch."
     },
     "remote": {
       "question": "I was scammed remotely, can you help?",
@@ -170,24 +166,9 @@
     "accident": {
       "title": "Accident Details",
       "date": "Incident Date",
-      "hasPoliceReport": "Have police report",
       "hasInsurance": "Have insurance",
       "insuranceCompany": "Insurance Company",
       "insurancePlaceholder": "Company name"
-    },
-    "police": {
-      "title": "Situation Details",
-      "situationType": "Situation Type",
-      "situationTypePlaceholder": "Select type",
-      "eventDate": "Event Date",
-      "hasProtocol": "Have protocol",
-      "types": {
-        "detention": "Detention",
-        "fine": "Fine",
-        "confiscation": "Confiscation",
-        "overstay": "Visa Overstay",
-        "other": "Other"
-      }
     },
     "medical": {
       "title": "Dispute Details",

@@ -78,8 +78,8 @@ export const Nav = memo(function Nav() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: isScrolled ? '#FFFFFF' : 'transparent',
-          borderBottom: isScrolled ? '1px solid #E5E8E8' : '1px solid transparent',
+          background: isScrolled ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.85)',
+          borderBottom: isScrolled ? '1px solid var(--border)' : '1px solid transparent',
           transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
       >
@@ -99,7 +99,7 @@ export const Nav = memo(function Nav() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '22px',
                   fontWeight: 700,
-                  color: isScrolled || isMobileMenuOpen ? '#1E3A3A' : '#FFFFFF',
+                  color: 'var(--text-primary)',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
                   transition: 'color 0.3s ease',
@@ -126,7 +126,7 @@ export const Nav = memo(function Nav() {
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: isScrolled ? '#5A6B6B' : 'rgba(255, 255, 255, 0.8)',
+                    color: 'var(--text-secondary)',
                     fontSize: '12px',
                     fontWeight: 500,
                     cursor: 'pointer',
@@ -154,9 +154,9 @@ export const Nav = memo(function Nav() {
                     padding: '8px 12px',
                     fontSize: '12px',
                     fontWeight: 500,
-                    color: isScrolled || isMobileMenuOpen ? '#5A6B6B' : 'rgba(255, 255, 255, 0.8)',
+                    color: 'var(--text-secondary)',
                     background: 'transparent',
-                    border: isScrolled || isMobileMenuOpen ? '1px solid #E5E8E8' : '1px solid rgba(255, 255, 255, 0.3)',
+                    border: '1px solid var(--border)',
                     borderRadius: '20px',
                     cursor: 'pointer',
                     letterSpacing: '0.1em',
@@ -202,8 +202,8 @@ export const Nav = memo(function Nav() {
                           padding: '12px 16px',
                           fontSize: '13px',
                           fontWeight: currentLang.code === lang.code ? 600 : 400,
-                          color: currentLang.code === lang.code ? '#1E3A3A' : '#5A6B6B',
-                          background: currentLang.code === lang.code ? '#F7F8F7' : 'transparent',
+                          color: currentLang.code === lang.code ? 'var(--text-primary)' : 'var(--text-secondary)',
+                          background: currentLang.code === lang.code ? 'var(--bg-primary)' : 'transparent',
                           border: 'none',
                           cursor: 'pointer',
                           textAlign: 'left',
@@ -211,7 +211,7 @@ export const Nav = memo(function Nav() {
                         }}
                         onMouseEnter={(e) => {
                           if (currentLang.code !== lang.code) {
-                            e.currentTarget.style.background = '#F7F8F7';
+                            e.currentTarget.style.background = 'var(--bg-primary)';
                           }
                         }}
                         onMouseLeave={(e) => {
@@ -238,7 +238,7 @@ export const Nav = memo(function Nav() {
                   fontSize: '12px',
                   fontWeight: 600,
                   color: '#FFFFFF',
-                  background: '#1E3A3A',
+                  background: 'var(--text-primary)',
                   border: 'none',
                   borderRadius: '25px',
                   cursor: 'pointer',
@@ -256,7 +256,7 @@ export const Nav = memo(function Nav() {
                 style={{
                   display: 'flex',
                   padding: '8px',
-                  color: isScrolled || isMobileMenuOpen ? '#1E3A3A' : '#FFFFFF',
+                  color: 'var(--text-primary)',
                   background: 'transparent',
                   border: 'none',
                   cursor: 'pointer',
@@ -307,10 +307,10 @@ export const Nav = memo(function Nav() {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   padding: '24px 0',
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   background: 'transparent',
                   border: 'none',
-                  borderBottom: '1px solid #E5E8E8',
+                  borderBottom: '1px solid var(--border)',
                   fontSize: '24px',
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
@@ -324,7 +324,7 @@ export const Nav = memo(function Nav() {
                 }}
               >
                 {link.label}
-                <ArrowRight size={20} color="#8A9A9A" />
+                <ArrowRight size={20} color="var(--text-muted)" />
               </button>
             ))}
           </div>
@@ -336,7 +336,7 @@ export const Nav = memo(function Nav() {
             style={{
               marginTop: '48px',
               padding: '20px 32px',
-              background: '#1E3A3A',
+              background: 'var(--text-primary)',
               color: '#FFFFFF',
               border: 'none',
               borderRadius: '30px',
@@ -363,7 +363,7 @@ export const Nav = memo(function Nav() {
         <div
           style={{
             padding: '32px',
-            borderTop: '1px solid #E5E8E8',
+            borderTop: '1px solid var(--border)',
             opacity: isMobileMenuOpen ? 1 : 0,
             transition: 'opacity 0.4s ease 0.4s',
           }}
@@ -371,7 +371,7 @@ export const Nav = memo(function Nav() {
           <p
             style={{
               fontSize: '13px',
-              color: '#8A9A9A',
+              color: 'var(--text-muted)',
               textAlign: 'center',
               lineHeight: 1.6,
             }}
@@ -390,7 +390,7 @@ export const Nav = memo(function Nav() {
         }
 
         .mobile-nav-item:active {
-          background: #F7F8F7;
+          background: var(--bg-primary);
         }
 
         .mobile-cta:active {

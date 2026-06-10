@@ -30,11 +30,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       if (variant === 'primary') {
         return {
           ...base,
-          background: 'linear-gradient(135deg, #C4654A 0%, #D4856A 100%)',
+          background: 'var(--text-primary)',
           color: '#FFFFFF',
-          borderRadius: '12px',
+          borderRadius: '30px',
           border: 'none',
-          boxShadow: '0 4px 20px rgba(196, 101, 74, 0.3)',
         };
       }
 
@@ -42,16 +41,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         return {
           ...base,
           background: 'transparent',
-          color: '#C4654A',
-          borderRadius: '12px',
-          border: '2px solid rgba(196, 101, 74, 0.4)',
+          color: 'var(--text-primary)',
+          borderRadius: '30px',
+          border: '1px solid var(--text-primary)',
         };
       }
 
       return {
         ...base,
         background: 'transparent',
-        color: '#5C524A',
+        color: 'var(--text-secondary)',
         border: 'none',
         borderRadius: '8px',
       };

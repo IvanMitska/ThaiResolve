@@ -1,21 +1,26 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
-/* KAIF-inspired Color Palette */
+/* B&W palette + single warm-red accent */
 :root {
-  --bg-primary: #F7F8F7;
-  --bg-secondary: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --text-primary: #1E3A3A;
-  --text-secondary: #5A6B6B;
-  --text-muted: #8A9A9A;
-  --accent: #1E3A3A;
-  --accent-light: #2A4A4A;
-  --accent-dark: #152A2A;
-  --border: #E5E8E8;
-  --border-light: #F0F2F2;
-  --success: #2A5A4A;
-  --error: #C4544A;
+  --bg-primary: #FAFAFA;     /* page bg, off-white */
+  --bg-secondary: #FFFFFF;   /* elevated surfaces */
+  --bg-card: #FFFFFF;        /* cards */
+  --text-primary: #0A0A0A;   /* primary text & icons, near-black */
+  --text-secondary: #4A4A4A; /* secondary text */
+  --text-muted: #8A8A8A;     /* tertiary text & labels */
+  --accent: #E63946;         /* warm red — single accent */
+  --accent-light: #FF5A6A;
+  --accent-dark: #C92F3C;
+  --border: #E5E5E5;
+  --border-light: #EFEFEF;
+  --success: #0A0A0A;        /* B&W vibe — success in near-black */
+  --error: #E63946;          /* unified with accent */
+
+  /* Scene-specific colors */
+  --scene-far: rgba(10, 10, 10, 0.05);
+  --scene-mid: rgba(10, 10, 10, 0.09);
+  --scene-near: #0A0A0A;
 }
 
 * {
@@ -87,6 +92,36 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+/* Hero entrance: words rise from below with a slight overshoot. The
+   overflow:hidden parent on each word clips the rise, giving an editorial
+   "kinetic typography" feel. */
+@keyframes heroWordRise {
+  0%   { transform: translate3d(0, 105%, 0); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+/* Generic hero block reveal — used for the badge, subtitle, CTA and stats. */
+@keyframes heroFadeUp {
+  0%   { transform: translate3d(0, 24px, 0); opacity: 0; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+/* Film grain — fixed-overlay SVG noise that lifts the otherwise flat
+   white background into something photographic. mix-blend-mode is
+   intentionally avoided — it forces the compositor to rasterize the
+   entire viewport every frame Lenis updates, which tanks scroll perf.
+   Plain opacity gives ~95% of the same look at a fraction of the cost. */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+}
+
 .animate-fade-in-up {
   animation: slideUp 0.5s ease-out forwards;
   opacity: 0;
@@ -144,7 +179,7 @@ input:focus, textarea:focus, select:focus {
 .service-card:hover,
 .advantage-card:hover {
   transform: translate3d(0, -4px, 0);
-  border-color: #1E3A3A;
+  border-color: var(--text-primary);
 }
 
 .service-card:hover .service-arrow {
@@ -161,18 +196,18 @@ input:focus, textarea:focus, select:focus {
 
 /* Footer link hover */
 .footer-link:hover {
-  color: #1E3A3A;
+  color: var(--text-primary);
 }
 
 /* Nav link hover */
 .nav-link:hover {
-  color: #1E3A3A;
+  color: var(--text-primary);
 }
 
 /* Language button hover */
 .lang-btn:hover {
-  border-color: #1E3A3A;
-  color: #1E3A3A;
+  border-color: var(--text-primary);
+  color: var(--text-primary);
 }
 
 /* Reduce motion */

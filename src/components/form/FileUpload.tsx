@@ -67,7 +67,7 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <label style={{ fontSize: '13px', fontWeight: 500, color: '#5C524A' }}>
+      <label style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)' }}>
         {t('form.fields.files')}
       </label>
 
@@ -81,12 +81,12 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
           position: 'relative',
           padding: '28px',
           border: dragActive
-            ? '1px dashed #C4654A'
-            : '1px dashed #E0DAD2',
+            ? '1px dashed var(--text-primary)'
+            : '1px dashed var(--border)',
           borderRadius: '10px',
           textAlign: 'center',
           transition: 'all 0.3s ease',
-          background: dragActive ? 'rgba(196, 101, 74, 0.02)' : 'transparent',
+          background: dragActive ? 'rgba(10,10,10,0.04)' : 'transparent',
         }}
       >
         <input
@@ -106,9 +106,9 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
         />
         <Upload
           size={24}
-          style={{ margin: '0 auto 8px', color: '#8C8078' }}
+          style={{ margin: '0 auto 8px', color: 'var(--text-muted)' }}
         />
-        <p style={{ fontSize: '14px', color: '#8C8078' }}>
+        <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
           {t('form.fields.filesHint')}
         </p>
       </div>
@@ -126,17 +126,17 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
                   alignItems: 'center',
                   gap: '12px',
                   padding: '12px 14px',
-                  background: '#F5F2ED',
-                  border: '1px solid #E0DAD2',
+                  background: 'var(--bg-primary)',
+                  border: '1px solid var(--border)',
                   borderRadius: '8px',
                 }}
               >
-                <Icon size={18} style={{ color: '#C4654A', flexShrink: 0 }} />
+                <Icon size={18} style={{ color: 'var(--text-primary)', flexShrink: 0 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p
                     style={{
                       fontSize: '14px',
-                      color: '#2C2420',
+                      color: 'var(--text-primary)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
@@ -144,7 +144,7 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
                   >
                     {file.name}
                   </p>
-                  <p style={{ fontSize: '12px', color: '#8C8078' }}>
+                  <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                     {formatFileSize(file.size)}
                   </p>
                 </div>
@@ -153,14 +153,14 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
                   onClick={() => removeFile(index)}
                   style={{
                     padding: '4px',
-                    color: '#8C8078',
+                    color: 'var(--text-muted)',
                     background: 'transparent',
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'color 0.2s',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#C4544A')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = '#8C8078')}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--error)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
                   <X size={16} />
                 </button>
@@ -170,7 +170,7 @@ export function FileUpload({ files, onFilesChange, error }: FileUploadProps) {
         </div>
       )}
 
-      {error && <p style={{ fontSize: '13px', color: '#C4544A' }}>{error}</p>}
+      {error && <p style={{ fontSize: '13px', color: 'var(--error)' }}>{error}</p>}
     </div>
   );
 }

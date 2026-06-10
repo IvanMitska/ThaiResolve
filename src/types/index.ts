@@ -1,4 +1,4 @@
-export type ServiceType = 'fraud' | 'police' | 'business';
+export type ServiceType = 'fraud' | 'business';
 
 export type MessengerType = 'whatsapp' | 'telegram' | 'line';
 
@@ -22,22 +22,13 @@ export interface FraudExtraFields {
   has_evidence: boolean;
 }
 
-export interface PoliceExtraFields {
-  situation_type: string;
-  event_date: string;
-  has_protocol: boolean;
-}
-
 export interface BusinessExtraFields {
   business_sphere: string;
   dispute_amount?: number;
   has_documents: boolean;
 }
 
-export type ExtraFields =
-  | FraudExtraFields
-  | PoliceExtraFields
-  | BusinessExtraFields;
+export type ExtraFields = FraudExtraFields | BusinessExtraFields;
 
 export interface RequestData extends BaseFormData {
   extra_fields?: ExtraFields;

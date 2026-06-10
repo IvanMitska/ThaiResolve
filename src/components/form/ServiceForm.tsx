@@ -119,7 +119,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
       ref={ref}
       style={{
         padding: '120px 0',
-        background: '#FFFFFF',
+        position: 'relative',
       }}
     >
       <div style={{ maxWidth: '640px', margin: '0 auto', padding: '0 24px' }}>
@@ -135,7 +135,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
               gap: '16px',
               fontSize: '12px',
               fontWeight: 500,
-              color: '#8A9A9A',
+              color: 'var(--text-muted)',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               marginBottom: '24px',
@@ -145,7 +145,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
               style={{
                 width: '40px',
                 height: '1px',
-                background: '#8A9A9A',
+                background: 'var(--text-muted)',
               }}
             />
             {t('form.label')}
@@ -155,7 +155,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
               fontFamily: "'Montserrat', sans-serif",
               fontSize: 'clamp(32px, 5vw, 48px)',
               fontWeight: 700,
-              color: '#1E3A3A',
+              color: 'var(--text-primary)',
               lineHeight: 1.1,
               textTransform: 'uppercase',
               marginBottom: '16px',
@@ -166,7 +166,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
           <p
             style={{
               fontSize: '15px',
-              color: '#5A6B6B',
+              color: 'var(--text-secondary)',
               lineHeight: 1.6,
             }}
           >
@@ -178,10 +178,10 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
         <div
           className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
           style={{
-            background: '#F7F8F7',
+            background: 'rgba(255,255,255,0.92)',
             borderRadius: '16px',
             padding: '40px',
-            border: '1px solid #E5E8E8',
+            border: '1px solid var(--border)',
             transitionDelay: '0.2s',
           }}
         >
@@ -253,7 +253,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
                 style={{
                   fontSize: '12px',
                   fontWeight: 600,
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                 }}
@@ -268,9 +268,9 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
                   width: '100%',
                   padding: '14px 16px',
                   background: '#FFFFFF',
-                  border: errors.description ? '1px solid #C4544A' : '1px solid #E5E8E8',
+                  border: errors.description ? '1px solid var(--error)' : '1px solid var(--border)',
                   borderRadius: '8px',
-                  color: '#1E3A3A',
+                  color: 'var(--text-primary)',
                   fontSize: '14px',
                   lineHeight: 1.6,
                   resize: 'none',
@@ -278,7 +278,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
                 }}
               />
               {errors.description && (
-                <p style={{ fontSize: '13px', color: '#C4544A' }}>{errors.description.message as string}</p>
+                <p style={{ fontSize: '13px', color: 'var(--error)' }}>{errors.description.message as string}</p>
               )}
             </div>
 
@@ -300,16 +300,16 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
                   marginTop: '3px',
                   width: '18px',
                   height: '18px',
-                  accentColor: '#1E3A3A',
+                  accentColor: 'var(--text-primary)',
                   cursor: 'pointer',
                 }}
               />
-              <span style={{ fontSize: '13px', color: '#5A6B6B', lineHeight: 1.5 }}>
+              <span style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                 {t('form.fields.consent')}
               </span>
             </label>
             {errors.consent && (
-              <p style={{ fontSize: '13px', color: '#C4544A', marginTop: '-12px' }}>
+              <p style={{ fontSize: '13px', color: 'var(--error)', marginTop: '-12px' }}>
                 {errors.consent.message as string}
               </p>
             )}
@@ -325,7 +325,7 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
                 justifyContent: 'center',
                 gap: '10px',
                 padding: '18px 32px',
-                background: '#1E3A3A',
+                background: 'var(--text-primary)',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '30px',

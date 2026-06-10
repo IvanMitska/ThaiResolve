@@ -71,7 +71,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
           style={{
             fontSize: '12px',
             fontWeight: 600,
-            color: '#1E3A3A',
+            color: 'var(--text-primary)',
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
           }}
@@ -97,9 +97,9 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
             padding: '14px 16px',
             paddingRight: '44px',
             background: '#FFFFFF',
-            border: error ? '1px solid #C4544A' : isOpen ? '1px solid #1E3A3A' : '1px solid #E5E8E8',
+            border: error ? '1px solid var(--error)' : isOpen ? '1px solid var(--text-primary)' : '1px solid var(--border)',
             borderRadius: '8px',
-            color: selectedValue ? '#1E3A3A' : '#8A9A9A',
+            color: selectedValue ? 'var(--text-primary)' : 'var(--text-muted)',
             fontSize: '14px',
             textAlign: 'left',
             cursor: 'pointer',
@@ -110,7 +110,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
           {selectedOption?.label || placeholder || 'Выберите...'}
           <ChevronDown
             size={18}
-            color="#5A6B6B"
+            color="var(--text-secondary)"
             style={{
               position: 'absolute',
               right: '16px',
@@ -131,7 +131,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
               right: 0,
               marginTop: '4px',
               background: '#FFFFFF',
-              border: '1px solid #E5E8E8',
+              border: '1px solid var(--border)',
               borderRadius: '12px',
               boxShadow: '0 10px 40px rgba(30, 58, 58, 0.12)',
               zIndex: 50,
@@ -153,9 +153,9 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      background: isSelected ? '#F7F8F7' : 'transparent',
+                      background: isSelected ? 'var(--bg-primary)' : 'transparent',
                       border: 'none',
-                      color: '#1E3A3A',
+                      color: 'var(--text-primary)',
                       fontSize: '14px',
                       textAlign: 'left',
                       cursor: 'pointer',
@@ -163,7 +163,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
-                        e.currentTarget.style.background = '#F7F8F7';
+                        e.currentTarget.style.background = 'var(--bg-primary)';
                       }
                     }}
                     onMouseLeave={(e) => {
@@ -174,7 +174,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                   >
                     <span>{option.label}</span>
                     {isSelected && (
-                      <Check size={16} color="#1E3A3A" strokeWidth={2.5} />
+                      <Check size={16} color="var(--text-primary)" strokeWidth={2.5} />
                     )}
                   </button>
                 );
@@ -184,7 +184,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
         )}
 
         {error && (
-          <p style={{ fontSize: '13px', color: '#C4544A' }}>
+          <p style={{ fontSize: '13px', color: 'var(--error)' }}>
             {error}
           </p>
         )}

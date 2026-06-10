@@ -1,6 +1,47 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowDown } from 'lucide-react';
+import { MagneticButton } from '../ui/MagneticButton';
+import { AnimatedNumber } from './AnimatedNumber';
+
+/** Splits a phrase into per-word spans that can be staggered into view. */
+function StaggeredText({
+  text,
+  baseDelay = 0,
+  perWordDelay = 80,
+  className,
+}: {
+  text: string;
+  baseDelay?: number;
+  perWordDelay?: number;
+  className?: string;
+}) {
+  return (
+    <span className={className} aria-label={text}>
+      {text.split(' ').map((word, i) => (
+        <span
+          key={i}
+          style={{
+            display: 'inline-block',
+            overflow: 'hidden',
+            verticalAlign: 'top',
+            marginRight: '0.28em',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-block',
+              animation: 'heroWordRise 0.95s cubic-bezier(0.22, 1, 0.36, 1) both',
+              animationDelay: `${baseDelay + i * perWordDelay}ms`,
+            }}
+          >
+            {word}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
+}
 
 export const Hero = memo(function Hero() {
   const { t } = useTranslation();
@@ -23,30 +64,6 @@ export const Hero = memo(function Hero() {
         overflow: 'hidden',
       }}
     >
-      {/* Background image - GPU accelerated */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(/hero-bg.webp)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          transform: 'translateZ(0)',
-          willChange: 'transform',
-        }}
-      />
-
-      {/* Dark overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(135deg, rgba(15, 30, 30, 0.8) 0%, rgba(20, 40, 40, 0.6) 100%)',
-          transform: 'translateZ(0)',
-        }}
-      />
-
       {/* Main content */}
       <div
         style={{
@@ -58,7 +75,12 @@ export const Hero = memo(function Hero() {
         }}
       >
         {/* Small label with line */}
-        <div className="animate-fade-in-up">
+        <div
+          style={{
+            opacity: 0,
+            animation: 'heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards',
+          }}
+        >
           <span
             style={{
               display: 'inline-flex',
@@ -66,7 +88,7 @@ export const Hero = memo(function Hero() {
               gap: '16px',
               fontSize: '12px',
               fontWeight: 500,
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'var(--text-muted)',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               marginBottom: '32px',
@@ -76,21 +98,20 @@ export const Hero = memo(function Hero() {
               style={{
                 width: '40px',
                 height: '1px',
-                background: 'rgba(255, 255, 255, 0.4)',
+                background: 'var(--text-muted)',
               }}
             />
             {t('hero.badge')}
           </span>
         </div>
 
-        {/* Main heading */}
+        {/* Main heading — staggered word-by-word reveal */}
         <h1
-          className="animate-fade-in-up delay-1"
           style={{
             fontFamily: "'Montserrat', sans-serif",
             fontSize: 'clamp(36px, 7vw, 72px)',
             fontWeight: 700,
-            color: '#FFFFFF',
+            color: 'var(--text-primary)',
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
@@ -98,55 +119,63 @@ export const Hero = memo(function Hero() {
             maxWidth: '800px',
           }}
         >
-          {t('hero.title')}
+          <StaggeredText text={t('hero.title')} baseDelay={350} perWordDelay={90} />
         </h1>
 
         {/* Subtitle */}
         <p
-          className="animate-fade-in-up delay-2"
           style={{
             fontSize: '17px',
-            color: 'rgba(255, 255, 255, 0.8)',
+            color: 'var(--text-secondary)',
             maxWidth: '500px',
             lineHeight: 1.7,
             marginBottom: '48px',
+            opacity: 0,
+            animation: 'heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 900ms forwards',
           }}
         >
           {t('hero.subtitle')}
         </p>
 
-        {/* CTA Button */}
-        <button
-          onClick={scrollToForm}
-          className="animate-fade-in-up delay-3 btn-scale"
+        {/* CTA Button — magnetic, follows the cursor */}
+        <div
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '12px',
-            padding: '18px 36px',
-            fontSize: '13px',
-            fontWeight: 600,
-            color: '#1E3A3A',
-            background: '#FFFFFF',
-            border: 'none',
-            borderRadius: '30px',
-            cursor: 'pointer',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
+            opacity: 0,
+            animation: 'heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1100ms forwards',
+            display: 'inline-block',
           }}
         >
-          {t('hero.cta')}
-          <ArrowDown size={16} />
-        </button>
+          <MagneticButton
+            onClick={scrollToForm}
+            className="btn-scale"
+            style={{
+              padding: '18px 36px',
+              fontSize: '13px',
+              fontWeight: 600,
+              color: '#FFFFFF',
+              background: 'var(--text-primary)',
+              border: 'none',
+              borderRadius: '30px',
+              cursor: 'pointer',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {t('hero.cta')}
+            <ArrowDown size={16} />
+          </MagneticButton>
+        </div>
 
-        {/* Stats */}
+        {/* Stats — animated counters */}
         <div
-          className="animate-fade-in delay-5 hero-stats"
+          className="hero-stats"
           style={{
             marginTop: '80px',
             display: 'flex',
             gap: '48px',
             flexWrap: 'wrap',
+            opacity: 0,
+            animation: 'heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1400ms forwards',
           }}
         >
           {[
@@ -157,7 +186,7 @@ export const Hero = memo(function Hero() {
             <div
               key={index}
               style={{
-                borderLeft: '1px solid rgba(255, 255, 255, 0.2)',
+                borderLeft: '1px solid var(--border)',
                 paddingLeft: '24px',
               }}
             >
@@ -166,18 +195,19 @@ export const Hero = memo(function Hero() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '42px',
                   fontWeight: 300,
-                  color: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   lineHeight: 1,
                   marginBottom: '8px',
+                  fontVariantNumeric: 'tabular-nums',
                 }}
               >
-                {stat.value}
+                <AnimatedNumber value={stat.value} delay={1600 + index * 150} duration={1600} />
               </div>
               <div
                 style={{
                   fontSize: '12px',
                   fontWeight: 500,
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  color: 'var(--text-muted)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
                 }}
