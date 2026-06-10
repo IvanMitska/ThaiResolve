@@ -28,8 +28,8 @@ export const advantages: AdvantageConfig[] = [
   },
   {
     icon: '03',
-    titleKey: 'advantages.speed.title',
-    descriptionKey: 'advantages.speed.description',
+    titleKey: 'advantages.honesty.title',
+    descriptionKey: 'advantages.honesty.description',
   },
   {
     icon: '04',

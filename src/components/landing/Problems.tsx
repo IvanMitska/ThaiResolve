@@ -1,7 +1,8 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, AlertTriangle, Briefcase } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useInView } from '../../hooks/useInView';
+import { SectionHeader } from '../ui/SectionHeader';
 import { services } from '../../config/services';
 import type { ServiceType } from '../../types';
 
@@ -9,170 +10,151 @@ interface ProblemsProps {
   onSelectService: (serviceType: ServiceType) => void;
 }
 
-const icons: Record<string, React.ElementType> = {
-  fraud: AlertTriangle,
-  business: Briefcase,
-};
-
 export const Problems = memo(function Problems({ onSelectService }: ProblemsProps) {
   const { t } = useTranslation();
   const { ref, isVisible } = useInView();
 
   const handleClick = (serviceId: ServiceType) => {
     onSelectService(serviceId);
-    const formElement = document.getElementById('form');
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section
       id="services"
       ref={ref}
-      style={{
-        padding: '120px 0',
-        position: 'relative',
-      }}
+      style={{ padding: 'clamp(90px, 14vh, 160px) 0', position: 'relative' }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        {/* Header */}
-        <div
-          className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
-          style={{ marginBottom: '64px', textAlign: 'center' }}
-        >
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '16px',
-              fontSize: '12px',
-              fontWeight: 500,
-              color: 'var(--text-muted)',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '24px',
-            }}
-          >
-            <span
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--text-muted)',
-              }}
-            />
-            {t('services.label')}
-            <span
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--text-muted)',
-              }}
-            />
-          </span>
-          <h2
-            style={{
-              fontFamily: "'Montserrat', sans-serif",
-              fontSize: 'clamp(28px, 4vw, 48px)',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              textTransform: 'uppercase',
-            }}
-          >
-            {t('services.title')}
-          </h2>
-        </div>
+      <div style={{ maxWidth: 'var(--container)', margin: '0 auto', padding: '0 var(--pad-x)' }}>
+        <SectionHeader
+          num="01"
+          eyebrow={t('services.label')}
+          title={t('services.title')}
+          lead={t('services.lead')}
+          visible={isVisible}
+          maxWidth={760}
+          style={{ marginBottom: 'clamp(48px, 7vh, 80px)' }}
+        />
 
-        {/* Services cards */}
+        {/* Two large editorial cards */}
         <div
           className="services-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '24px',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 'clamp(20px, 2.4vw, 32px)',
           }}
         >
           {services.map((service, index) => {
-            const Icon = icons[service.id] || AlertTriangle;
+            const tags = (t(`${service.titleKey.replace('.title', '')}.tags`, { returnObjects: true }) as string[]) || [];
             return (
               <button
                 key={service.id}
                 onClick={() => handleClick(service.id)}
-                className={`animate-on-scroll ${isVisible ? 'visible' : ''} service-card`}
+                data-cursor
+                className={`service-card animate-on-scroll ${isVisible ? 'visible' : ''}`}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  padding: '32px',
-                  background: 'rgba(255,255,255,0.88)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '16px',
+                  gap: 'clamp(20px, 2.6vw, 32px)',
+                  padding: 'clamp(28px, 3.4vw, 48px)',
+                  background: 'var(--paper-card)',
+                  border: '1px solid var(--line)',
+                  borderRadius: '22px',
                   cursor: 'pointer',
                   textAlign: 'left',
                   transitionDelay: `${index * 0.1}s`,
                 }}
               >
-                {/* Icon */}
-                <div
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '16px',
-                    background: 'var(--text-primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '24px',
-                  }}
-                >
-                  <Icon size={28} color="#FFFFFF" strokeWidth={1.5} />
+                {/* Top: index + arrow */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.8125rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.16em',
+                      color: 'var(--accent)',
+                      fontVariantNumeric: 'tabular-nums',
+                    }}
+                  >
+                    {service.icon}
+                  </span>
+                  <span
+                    className="card-arrow"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '52px',
+                      height: '52px',
+                      borderRadius: '50%',
+                      border: '1px solid var(--line)',
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    <ArrowUpRight size={22} strokeWidth={1.5} />
+                  </span>
                 </div>
 
-                {/* Content */}
-                <h3
-                  style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '18px',
-                    fontWeight: 700,
-                    color: 'var(--text-primary)',
-                    lineHeight: 1.3,
-                    marginBottom: '12px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.02em',
-                  }}
-                >
-                  {t(service.titleKey)}
-                </h3>
-                <p
-                  style={{
-                    fontSize: '15px',
-                    fontWeight: 400,
-                    color: 'var(--text-secondary)',
-                    lineHeight: 1.6,
-                    marginBottom: '24px',
-                    flex: 1,
-                  }}
-                >
-                  {t(service.subtitleKey)}
-                </p>
+                {/* Title + description */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <h3
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.875rem, 3.4vw, 2.75rem)',
+                      fontWeight: 500,
+                      letterSpacing: '-0.035em',
+                      lineHeight: 1,
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    {t(service.titleKey)}
+                  </h3>
+                  <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.55, maxWidth: 420 }}>
+                    {t(service.subtitleKey)}
+                  </p>
+                </div>
 
-                {/* Arrow link */}
+                {/* Tags */}
+                {tags.length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: 'auto' }}>
+                    {tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          padding: '7px 14px',
+                          borderRadius: '999px',
+                          border: '1px solid var(--line)',
+                          fontSize: '0.8125rem',
+                          color: 'var(--text-secondary)',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Footer CTA */}
                 <div
-                  className="service-arrow"
+                  className="card-cta"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    fontSize: '13px',
+                    gap: '10px',
+                    paddingTop: 'clamp(20px, 2.4vw, 28px)',
+                    borderTop: '1px solid var(--line)',
+                    fontSize: '0.75rem',
                     fontWeight: 600,
-                    color: 'var(--text-primary)',
+                    letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
+                    color: 'var(--ink)',
                   }}
                 >
-                  {t('services.learnMore', 'Подробнее')}
-                  <ArrowRight size={16} />
+                  {t('services.cardCta')}
+                  <span className="card-cta-arrow" style={{ color: 'var(--accent)' }}>→</span>
                 </div>
               </button>
             );
@@ -180,12 +162,16 @@ export const Problems = memo(function Problems({ onSelectService }: ProblemsProp
         </div>
       </div>
 
-      {/* Responsive */}
       <style>{`
-        @media (max-width: 900px) {
-          .services-grid {
-            grid-template-columns: 1fr !important;
-          }
+        .service-card { transition: transform 0.4s var(--ease-expo), border-color 0.3s var(--ease-snap); }
+        .service-card .card-arrow { transition: background 0.3s var(--ease-snap), border-color 0.3s var(--ease-snap), color 0.3s var(--ease-snap), transform 0.4s var(--ease-expo); }
+        .service-card .card-cta-arrow { transition: transform 0.3s var(--ease-expo); display: inline-block; }
+        .service-card:hover { transform: translateY(-6px); border-color: var(--ink); }
+        .service-card:hover .card-arrow { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .service-card:hover .card-cta-arrow { transform: translateX(6px); }
+        @media (hover: none) { .service-card:hover { transform: none; } }
+        @media (max-width: 760px) {
+          .services-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

@@ -56,8 +56,8 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
             style={{
               width: '52px',
               height: '28px',
-              background: checked ? 'var(--text-primary)' : 'var(--bg-primary)',
-              border: '1px solid var(--border)',
+              background: checked ? 'var(--accent)' : 'var(--bg-primary)',
+              border: checked ? '1px solid var(--accent)' : '1px solid var(--border)',
               borderRadius: '14px',
               position: 'relative',
               transition: 'all 0.3s ease',

@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Check } from 'lucide-react';
-import { CONTACTS } from '../../config/constants';
 
 interface SuccessScreenProps {
   onReset: () => void;
@@ -9,12 +8,6 @@ interface SuccessScreenProps {
 
 export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScreenProps) {
   const { t } = useTranslation();
-
-  const contactLinks = [
-    { label: 'WhatsApp', href: CONTACTS.whatsapp },
-    { label: 'Telegram', href: CONTACTS.telegram },
-    { label: 'Line', href: CONTACTS.line },
-  ];
 
   return (
     <section
@@ -40,8 +33,7 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
             height: '72px',
             margin: '0 auto 28px',
             borderRadius: '50%',
-            background: 'var(--text-primary)',
-            border: '1px solid var(--text-primary)',
+            background: 'var(--accent)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -53,10 +45,11 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
         {/* Title */}
         <h2
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '28px',
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
             fontWeight: 500,
-            color: 'var(--text-primary)',
+            letterSpacing: '-0.03em',
+            color: 'var(--ink)',
             marginBottom: '12px',
           }}
         >
@@ -68,54 +61,12 @@ export const SuccessScreen = memo(function SuccessScreen({ onReset }: SuccessScr
           style={{
             fontSize: '15px',
             color: 'var(--text-secondary)',
-            marginBottom: '40px',
+            marginBottom: '8px',
             lineHeight: 1.6,
           }}
         >
           {t('success.message')}
         </p>
-
-        {/* Contact links */}
-        <p
-          style={{
-            fontSize: '14px',
-            color: 'var(--text-muted)',
-            marginBottom: '16px',
-          }}
-        >
-          {t('success.contact')}
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
-          {contactLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                padding: '10px 18px',
-                fontSize: '14px',
-                fontWeight: 500,
-                color: 'var(--text-primary)',
-                background: 'transparent',
-                border: '1px solid var(--border)',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--text-primary)';
-                e.currentTarget.style.color = 'var(--text-primary)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border)';
-                e.currentTarget.style.color = 'var(--text-primary)';
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
 
         {/* Reset */}
         <button

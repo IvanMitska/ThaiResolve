@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInView } from '../../hooks/useInView';
+import { SectionHeader } from '../ui/SectionHeader';
 import { advantages } from '../../config/services';
 
 export const Advantages = memo(function Advantages() {
@@ -10,130 +11,95 @@ export const Advantages = memo(function Advantages() {
   return (
     <section
       ref={ref}
-      style={{
-        padding: '120px 0',
-        position: 'relative',
-      }}
+      style={{ padding: 'clamp(90px, 14vh, 160px) 0', position: 'relative' }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        {/* Header - KAIF style */}
-        <div
-          className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
-          style={{ marginBottom: '64px' }}
-        >
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '16px',
-              fontSize: '12px',
-              fontWeight: 500,
-              color: 'var(--text-muted)',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '24px',
-            }}
-          >
-            <span
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--text-muted)',
-              }}
-            />
-            {t('advantages.label')}
-          </span>
-          <h2
-            style={{
-              fontFamily: "'Montserrat', sans-serif",
-              fontSize: 'clamp(32px, 5vw, 56px)',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              textTransform: 'uppercase',
-              maxWidth: '700px',
-            }}
-          >
-            {t('advantages.title')}
-          </h2>
-        </div>
+      <div style={{ maxWidth: 'var(--container)', margin: '0 auto', padding: '0 var(--pad-x)' }}>
+        <SectionHeader
+          num="02"
+          eyebrow={t('advantages.label')}
+          title={t('advantages.title')}
+          lead={t('advantages.lead')}
+          visible={isVisible}
+          maxWidth={680}
+          style={{ marginBottom: 'clamp(48px, 7vh, 88px)' }}
+        />
 
-        {/* Cards grid - KAIF style */}
         <div
           className="advantages-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '24px',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 'clamp(16px, 2vw, 24px)',
           }}
         >
           {advantages.map((advantage, index) => (
-              <div
-                key={index}
-                className={`animate-on-scroll ${isVisible ? 'visible' : ''} advantage-card`}
-                style={{
-                  padding: '32px 24px',
-                  background: 'rgba(255,255,255,0.88)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '12px',
-                  transitionDelay: `${index * 0.1}s`,
-                }}
-              >
-                {/* Large number */}
-                <div
+            <div
+              key={index}
+              className={`advantage-card animate-on-scroll ${isVisible ? 'visible' : ''}`}
+              style={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'clamp(16px, 2vw, 24px)',
+                padding: 'clamp(28px, 3.4vw, 48px)',
+                borderRadius: '22px',
+                border: '1px solid var(--line)',
+                background: 'rgba(251, 250, 246, 0.55)',
+                backdropFilter: 'blur(14px) saturate(150%)',
+                WebkitBackdropFilter: 'blur(14px) saturate(150%)',
+                transitionDelay: `${index * 0.08}s`,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px' }}>
+                <span
                   style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '48px',
-                    fontWeight: 300,
-                    color: 'var(--text-primary)',
-                    lineHeight: 1,
-                    marginBottom: '16px',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(2.5rem, 4.5vw, 3.75rem)',
+                    fontWeight: 500,
+                    letterSpacing: '-0.04em',
+                    lineHeight: 0.9,
+                    color: 'var(--accent)',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {advantage.icon}
-                </div>
-
-                {/* Title */}
-                <h3
-                  style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    color: 'var(--text-primary)',
-                    marginBottom: '12px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  {t(advantage.titleKey)}
-                </h3>
-
-                {/* Description */}
-                <p
-                  style={{
-                    fontSize: '14px',
-                    color: 'var(--text-secondary)',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {t(advantage.descriptionKey)}
-                </p>
+                </span>
+                <span style={{ flex: 1, height: '1px', background: 'var(--line)', transform: 'translateY(-8px)' }} />
               </div>
+
+              <h3
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1.375rem, 2.4vw, 2rem)',
+                  fontWeight: 500,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.05,
+                  color: 'var(--ink)',
+                }}
+              >
+                {t(advantage.titleKey)}
+              </h3>
+              <p
+                style={{
+                  fontSize: '0.9375rem',
+                  color: 'var(--text-secondary)',
+                  lineHeight: 1.6,
+                  maxWidth: 360,
+                }}
+              >
+                {t(advantage.descriptionKey)}
+              </p>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Responsive */}
       <style>{`
-        @media (max-width: 1000px) {
-          .advantages-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        @media (max-width: 600px) {
-          .advantages-grid {
-            grid-template-columns: 1fr !important;
-          }
+        .advantage-card { transition: transform 0.4s var(--ease-expo), border-color 0.3s var(--ease-snap), background 0.3s var(--ease-snap); }
+        .advantage-card:hover { transform: translateY(-6px); border-color: var(--ink); background: rgba(251, 250, 246, 0.75); }
+        @media (hover: none) { .advantage-card:hover { transform: none; } }
+        @media (max-width: 760px) {
+          .advantages-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

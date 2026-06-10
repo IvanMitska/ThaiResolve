@@ -6,10 +6,10 @@ import { z } from 'zod';
 import { ArrowRight } from 'lucide-react';
 import { Input } from './fields/Input';
 import { Select } from './fields/Select';
-import { FileUpload } from './FileUpload';
 import { DynamicFields } from './DynamicFields';
 import { SuccessScreen } from './SuccessScreen';
 import { useInView } from '../../hooks/useInView';
+import { SectionHeader } from '../ui/SectionHeader';
 import { services, cities } from '../../config/services';
 import type { ServiceType } from '../../types';
 
@@ -25,7 +25,6 @@ interface ServiceFormProps {
 
 export const ServiceForm = memo(function ServiceForm({ preselectedService }: ServiceFormProps) {
   const { t, i18n } = useTranslation();
-  const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { ref, isVisible } = useInView();
@@ -77,7 +76,6 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
       const formData = {
         ...data,
         lang: i18n.language,
-        file_urls: [],
       };
 
       const response = await fetch(
@@ -105,7 +103,6 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
 
   const handleReset = () => {
     reset();
-    setFiles([]);
     setIsSuccess(false);
   };
 
@@ -118,71 +115,32 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
       id="form"
       ref={ref}
       style={{
-        padding: '120px 0',
+        padding: 'clamp(90px, 14vh, 160px) 0',
         position: 'relative',
       }}
     >
-      <div style={{ maxWidth: '640px', margin: '0 auto', padding: '0 24px' }}>
-        {/* Header - KAIF style */}
-        <div
-          className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
-          style={{ marginBottom: '48px' }}
-        >
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '16px',
-              fontSize: '12px',
-              fontWeight: 500,
-              color: 'var(--text-muted)',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '24px',
-            }}
-          >
-            <span
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--text-muted)',
-              }}
-            />
-            {t('form.label')}
-          </span>
-          <h2
-            style={{
-              fontFamily: "'Montserrat', sans-serif",
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              textTransform: 'uppercase',
-              marginBottom: '16px',
-            }}
-          >
-            {t('form.title')}
-          </h2>
-          <p
-            style={{
-              fontSize: '15px',
-              color: 'var(--text-secondary)',
-              lineHeight: 1.6,
-            }}
-          >
-            {t('form.subtitle')}
-          </p>
-        </div>
+      <div style={{ maxWidth: '680px', margin: '0 auto', padding: '0 var(--pad-x)' }}>
+        <SectionHeader
+          num="04"
+          eyebrow={t('form.label')}
+          title={t('form.title')}
+          lead={t('form.subtitle')}
+          visible={isVisible}
+          align="center"
+          maxWidth={560}
+          style={{ marginBottom: 'clamp(40px, 6vh, 64px)' }}
+        />
 
-        {/* Form card - KAIF style */}
+        {/* Form card */}
         <div
           className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
           style={{
-            background: 'rgba(255,255,255,0.92)',
-            borderRadius: '16px',
-            padding: '40px',
-            border: '1px solid var(--border)',
-            transitionDelay: '0.2s',
+            background: 'var(--paper-card)',
+            borderRadius: '20px',
+            padding: 'clamp(28px, 4vw, 44px)',
+            border: '1px solid var(--line)',
+            boxShadow: '0 30px 80px -40px rgba(13,15,14,0.25)',
+            transitionDelay: '0.15s',
           }}
         >
           <form
@@ -282,8 +240,6 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
               )}
             </div>
 
-            <FileUpload files={files} onFilesChange={setFiles} />
-
             {/* Consent */}
             <label
               style={{
@@ -314,28 +270,20 @@ export const ServiceForm = memo(function ServiceForm({ preselectedService }: Ser
               </p>
             )}
 
-            {/* Submit - KAIF style */}
+            {/* Submit */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn-scale"
+              className="btn-pill btn-scale"
               style={{
-                display: 'flex',
-                alignItems: 'center',
                 justifyContent: 'center',
-                gap: '10px',
-                padding: '18px 32px',
-                background: 'var(--text-primary)',
+                padding: '20px 32px',
+                background: 'var(--accent)',
                 color: '#FFFFFF',
                 border: 'none',
-                borderRadius: '30px',
-                fontSize: '13px',
-                fontWeight: 600,
                 cursor: isSubmitting ? 'not-allowed' : 'pointer',
                 opacity: isSubmitting ? 0.6 : 1,
                 marginTop: '8px',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
               }}
             >
               {isSubmitting ? t('form.fields.submitting') || 'Sending...' : t('form.fields.submit')}

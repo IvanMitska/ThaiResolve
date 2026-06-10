@@ -10,10 +10,6 @@ export const faqItems: FAQItem[] = [
     answerKey: 'faq.cost.answer',
   },
   {
-    questionKey: 'faq.speed.question',
-    answerKey: 'faq.speed.answer',
-  },
-  {
     questionKey: 'faq.remote.question',
     answerKey: 'faq.remote.answer',
   },

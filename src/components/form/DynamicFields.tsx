@@ -15,6 +15,22 @@ interface DynamicFieldsProps {
   errors: FieldErrors<any>;
 }
 
+function GroupTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h4
+      style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '1.125rem',
+        fontWeight: 500,
+        letterSpacing: '-0.02em',
+        color: 'var(--ink)',
+      }}
+    >
+      {children}
+    </h4>
+  );
+}
+
 export const DynamicFields = memo(function DynamicFields({
   serviceType,
   register,
@@ -27,34 +43,23 @@ export const DynamicFields = memo(function DynamicFields({
   if (!serviceType) return null;
 
   const extraErrors = errors.extra_fields as Record<string, any> | undefined;
+  const col2: React.CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' };
 
   const renderFields = () => {
     switch (serviceType) {
       case 'fraud':
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: '18px',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-              }}
-            >
-              {t('form.fraud.title')}
-            </h4>
+          <>
+            <GroupTitle>{t('form.fraud.title')}</GroupTitle>
             <Select
               label={t('form.fraud.type')}
               placeholder={t('form.fraud.typePlaceholder')}
-              options={fraudTypes.map((type) => ({
-                value: type.value,
-                label: t(type.labelKey),
-              }))}
+              options={fraudTypes.map((type) => ({ value: type.value, label: t(type.labelKey) }))}
               value={watch('extra_fields.fraud_type') || ''}
               onChange={(value) => setValue('extra_fields.fraud_type', value)}
               error={extraErrors?.fraud_type?.message as string}
             />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div style={col2}>
               <Input
                 label={t('form.fraud.amount')}
                 type="number"
@@ -74,22 +79,13 @@ export const DynamicFields = memo(function DynamicFields({
               checked={watch('extra_fields.has_evidence') || false}
               onChange={(e) => setValue('extra_fields.has_evidence', e.target.checked)}
             />
-          </div>
+          </>
         );
 
       case 'business':
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: '18px',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-              }}
-            >
-              {t('form.business.title')}
-            </h4>
+          <>
+            <GroupTitle>{t('form.business.title')}</GroupTitle>
             <Input
               label={t('form.business.businessSphere')}
               placeholder={t('form.business.businessPlaceholder')}
@@ -107,7 +103,7 @@ export const DynamicFields = memo(function DynamicFields({
               checked={watch('extra_fields.has_documents') || false}
               onChange={(e) => setValue('extra_fields.has_documents', e.target.checked)}
             />
-          </div>
+          </>
         );
 
       default:
@@ -119,11 +115,14 @@ export const DynamicFields = memo(function DynamicFields({
     <div
       key={serviceType}
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
         padding: '24px',
-        borderRadius: '12px',
-        background: 'rgba(255,255,255,0.6)',
-        border: '1px solid var(--border)',
-        animation: 'fadeInUp 0.3s ease-out',
+        borderRadius: '14px',
+        background: 'var(--accent-soft)',
+        border: '1px solid var(--line-soft)',
+        animation: 'heroFadeUp 0.4s var(--ease-expo)',
       }}
     >
       {renderFields()}

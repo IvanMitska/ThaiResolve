@@ -2,222 +2,164 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowDown } from 'lucide-react';
 import { MagneticButton } from '../ui/MagneticButton';
-import { AnimatedNumber } from './AnimatedNumber';
-
-/** Splits a phrase into per-word spans that can be staggered into view. */
-function StaggeredText({
-  text,
-  baseDelay = 0,
-  perWordDelay = 80,
-  className,
-}: {
-  text: string;
-  baseDelay?: number;
-  perWordDelay?: number;
-  className?: string;
-}) {
-  return (
-    <span className={className} aria-label={text}>
-      {text.split(' ').map((word, i) => (
-        <span
-          key={i}
-          style={{
-            display: 'inline-block',
-            overflow: 'hidden',
-            verticalAlign: 'top',
-            marginRight: '0.28em',
-          }}
-        >
-          <span
-            style={{
-              display: 'inline-block',
-              animation: 'heroWordRise 0.95s cubic-bezier(0.22, 1, 0.36, 1) both',
-              animationDelay: `${baseDelay + i * perWordDelay}ms`,
-            }}
-          >
-            {word}
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
 
 export const Hero = memo(function Hero() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const scrollToForm = () => {
-    const element = document.getElementById('form');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Language-aware headline size — English stays huge; the longer Russian
+  // phrase steps down so it still fills the screen without overflowing.
+  const lang = (i18n.language || 'en').slice(0, 2);
+  // The clamp min is the size on phones; raising it makes mobile bigger
+  // without affecting desktop (where the vw / max terms win).
+  const megaSize =
+    lang === 'ru'
+      ? 'clamp(3.75rem, 12.5vw, 13.5rem)'
+      : lang === 'th'
+      ? 'clamp(3.75rem, 12.5vw, 13.5rem)'
+      : 'clamp(5.25rem, 16vw, 18rem)'; // EN — large enough to wrap to 3 lines
 
   return (
     <section
+      className="hero-section"
       style={{
         position: 'relative',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         overflow: 'hidden',
       }}
     >
-      {/* Main content */}
       <div
+        className="hero-inner"
         style={{
           position: 'relative',
-          maxWidth: '1200px',
+          maxWidth: 'var(--container)',
           margin: '0 auto',
-          padding: '120px 24px 80px',
+          padding: 'clamp(100px, 14vh, 150px) var(--pad-x) clamp(44px, 7vh, 80px)',
           width: '100%',
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
         }}
       >
-        {/* Small label with line */}
-        <div
-          style={{
-            opacity: 0,
-            animation: 'heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards',
-          }}
-        >
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '16px',
-              fontSize: '12px',
-              fontWeight: 500,
-              color: 'var(--text-muted)',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '32px',
-            }}
-          >
+        {/* Display headline — mega phrase */}
+        <h1 className="hero-title" style={{ margin: 0 }}>
+          <span style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.08em' }}>
             <span
               style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--text-muted)',
+                display: 'inline-block',
+                fontFamily: 'var(--font-display)',
+                fontSize: megaSize,
+                fontWeight: 700,
+                letterSpacing: '-0.045em',
+                lineHeight: 0.88,
+                color: 'var(--ink)',
+                animation: 'heroWordRise 1.1s cubic-bezier(0.16, 1, 0.3, 1) 520ms both',
               }}
-            />
-            {t('hero.badge')}
+            >
+              {t('hero.mega')}
+              <span style={{ color: 'var(--accent)' }}>.</span>
+            </span>
           </span>
-        </div>
-
-        {/* Main heading — staggered word-by-word reveal */}
-        <h1
-          style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: 'clamp(36px, 7vw, 72px)',
-            fontWeight: 700,
-            color: 'var(--text-primary)',
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            textTransform: 'uppercase',
-            marginBottom: '24px',
-            maxWidth: '800px',
-          }}
-        >
-          <StaggeredText text={t('hero.title')} baseDelay={350} perWordDelay={90} />
         </h1>
 
-        {/* Subtitle */}
-        <p
-          style={{
-            fontSize: '17px',
-            color: 'var(--text-secondary)',
-            maxWidth: '500px',
-            lineHeight: 1.7,
-            marginBottom: '48px',
-            opacity: 0,
-            animation: 'heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 900ms forwards',
-          }}
-        >
-          {t('hero.subtitle')}
-        </p>
-
-        {/* CTA Button — magnetic, follows the cursor */}
+        {/* CTA — anchored to the bottom-right on desktop (title stays centered) */}
         <div
+          className="hero-cta"
           style={{
+            position: 'absolute',
+            right: 0,
+            bottom: 'clamp(44px, 7vh, 80px)',
             opacity: 0,
-            animation: 'heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1100ms forwards',
-            display: 'inline-block',
+            animation: 'heroFadeUp 0.9s var(--ease-expo) 1200ms forwards',
           }}
         >
           <MagneticButton
             onClick={scrollToForm}
-            className="btn-scale"
+            className="btn-pill btn-scale"
             style={{
-              padding: '18px 36px',
-              fontSize: '13px',
-              fontWeight: 600,
-              color: '#FFFFFF',
-              background: 'var(--text-primary)',
+              padding: '20px 34px',
+              color: '#fff',
+              background: 'var(--ink)',
               border: 'none',
-              borderRadius: '30px',
-              cursor: 'pointer',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
             }}
           >
             {t('hero.cta')}
             <ArrowDown size={16} />
           </MagneticButton>
         </div>
+      </div>
 
-        {/* Stats — animated counters */}
-        <div
-          className="hero-stats"
+      {/* Scroll cue */}
+      <div
+        className="hero-scroll-cue"
+        style={{
+          position: 'absolute',
+          right: 'var(--pad-x)',
+          bottom: 'clamp(24px, 4vh, 44px)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '14px',
+          opacity: 0,
+          animation: 'heroFadeUp 1s var(--ease-expo) 1600ms forwards',
+        }}
+      >
+        <span
           style={{
-            marginTop: '80px',
-            display: 'flex',
-            gap: '48px',
-            flexWrap: 'wrap',
-            opacity: 0,
-            animation: 'heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1400ms forwards',
+            fontSize: '0.625rem',
+            fontWeight: 600,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'var(--text-muted)',
           }}
         >
-          {[
-            { value: '100+', label: t('hero.stats.cases') },
-            { value: '24h', label: t('hero.stats.response') },
-            { value: '95%', label: t('hero.stats.success') },
-          ].map((stat, index) => (
-            <div
-              key={index}
-              style={{
-                borderLeft: '1px solid var(--border)',
-                paddingLeft: '24px',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontSize: '42px',
-                  fontWeight: 300,
-                  color: 'var(--text-primary)',
-                  lineHeight: 1,
-                  marginBottom: '8px',
-                  fontVariantNumeric: 'tabular-nums',
-                }}
-              >
-                <AnimatedNumber value={stat.value} delay={1600 + index * 150} duration={1600} />
-              </div>
-              <div
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  color: 'var(--text-muted)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                }}
-              >
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
+          {t('hero.scroll')}
+        </span>
+        <span style={{ width: '48px', height: '1px', background: 'var(--text-muted)', position: 'relative', overflow: 'hidden' }}>
+          <span
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'var(--accent)',
+              animation: 'scrollCue 2.2s var(--ease-expo) infinite',
+            }}
+          />
+        </span>
       </div>
+
+      <style>{`
+        @keyframes scrollCue {
+          0% { transform: translateX(-100%); }
+          60%, 100% { transform: translateX(100%); }
+        }
+        /* Mobile: center the big headline so it reads balanced. */
+        @media (max-width: 768px) {
+          .hero-inner {
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 84px !important;
+            padding-bottom: 56px !important;
+          }
+          .hero-title { text-align: center; }
+          .hero-cta {
+            position: static !important;
+            margin-top: clamp(28px, 5vh, 44px) !important;
+            align-self: center !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .hero-scroll-cue { display: none; }
+        }
+      `}</style>
     </section>
   );
 });

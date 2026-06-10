@@ -1,12 +1,32 @@
 import { useState, useEffect, memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
+import { Menu, X, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
 
 const languages = [
   { code: 'ru', label: 'RU', name: 'Русский' },
   { code: 'en', label: 'EN', name: 'English' },
   { code: 'th', label: 'TH', name: 'ไทย' },
 ];
+
+/** Editorial wordmark — display face with an emerald accent dot. */
+function Wordmark({ size = '1.35rem' }: { size?: string }) {
+  return (
+    <span
+      style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: size,
+        fontWeight: 600,
+        letterSpacing: '-0.03em',
+        color: 'var(--ink)',
+        display: 'inline-flex',
+        alignItems: 'baseline',
+      }}
+    >
+      ThaiResolve
+      <span style={{ color: 'var(--accent)' }}>.</span>
+    </span>
+  );
+}
 
 export const Nav = memo(function Nav() {
   const { t, i18n } = useTranslation();
@@ -16,12 +36,11 @@ export const Nav = memo(function Nav() {
   const langMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close language menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
@@ -32,16 +51,9 @@ export const Nav = memo(function Nav() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [isMobileMenuOpen]);
 
   const changeLanguage = (langCode: string) => {
@@ -54,12 +66,8 @@ export const Nav = memo(function Nav() {
 
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
-    // Small delay to allow menu close animation
     setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     }, 300);
   };
 
@@ -78,46 +86,28 @@ export const Nav = memo(function Nav() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: isScrolled ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.85)',
-          borderBottom: isScrolled ? '1px solid var(--border)' : '1px solid transparent',
-          transition: 'background 0.3s ease, border-color 0.3s ease',
+          background: isScrolled ? 'rgba(242,241,236,0.82)' : 'transparent',
+          backdropFilter: isScrolled ? 'saturate(180%) blur(16px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'saturate(180%) blur(16px)' : 'none',
+          borderBottom: isScrolled ? '1px solid var(--line)' : '1px solid transparent',
+          transition: 'background 0.4s var(--ease-expo), border-color 0.4s ease',
         }}
       >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', padding: '0 var(--pad-x)' }}>
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              height: '80px',
+              height: '76px',
             }}
           >
-            {/* Logo */}
-            <a href="#" style={{ textDecoration: 'none', zIndex: 101 }}>
-              <span
-                style={{
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontSize: '22px',
-                  fontWeight: 700,
-                  color: 'var(--text-primary)',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                Thai<span style={{ fontWeight: 400 }}>Resolve</span>
-              </span>
+            <a href="#" style={{ zIndex: 101 }} aria-label="ThaiResolve">
+              <Wordmark />
             </a>
 
-            {/* Desktop Nav */}
-            <div
-              className="desktop-nav"
-              style={{
-                display: 'none',
-                alignItems: 'center',
-                gap: '40px',
-              }}
-            >
+            {/* Desktop nav */}
+            <div className="desktop-nav" style={{ display: 'none', alignItems: 'center', gap: '36px' }}>
               {navLinks.map((link) => (
                 <button
                   key={link.id}
@@ -127,11 +117,11 @@ export const Nav = memo(function Nav() {
                     background: 'none',
                     border: 'none',
                     color: 'var(--text-secondary)',
-                    fontSize: '12px',
+                    fontSize: '0.75rem',
                     fontWeight: 500,
                     cursor: 'pointer',
                     padding: 0,
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.12em',
                     textTransform: 'uppercase',
                   }}
                 >
@@ -140,9 +130,8 @@ export const Nav = memo(function Nav() {
               ))}
             </div>
 
-            {/* Right side */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 101 }}>
-              {/* Language Dropdown */}
+            {/* Right cluster */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', zIndex: 101 }}>
               <div ref={langMenuRef} style={{ position: 'relative' }}>
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
@@ -150,31 +139,28 @@ export const Nav = memo(function Nav() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
+                    gap: '5px',
                     padding: '8px 12px',
-                    fontSize: '12px',
-                    fontWeight: 500,
+                    fontSize: '0.6875rem',
+                    fontWeight: 600,
                     color: 'var(--text-secondary)',
                     background: 'transparent',
-                    border: '1px solid var(--border)',
-                    borderRadius: '20px',
+                    border: '1px solid var(--line)',
+                    borderRadius: '999px',
                     cursor: 'pointer',
                     letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    transition: 'all 0.3s ease',
                   }}
                 >
                   {currentLang.label}
                   <ChevronDown
-                    size={14}
+                    size={13}
                     style={{
                       transform: isLangMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.2s ease',
+                      transition: 'transform 0.25s var(--ease-expo)',
                     }}
                   />
                 </button>
 
-                {/* Dropdown Menu */}
                 {isLangMenuOpen && (
                   <div
                     style={{
@@ -182,12 +168,13 @@ export const Nav = memo(function Nav() {
                       top: '100%',
                       right: 0,
                       marginTop: '8px',
-                      background: '#FFFFFF',
-                      borderRadius: '12px',
-                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                      background: 'var(--paper-card)',
+                      borderRadius: '14px',
+                      border: '1px solid var(--line)',
+                      boxShadow: '0 18px 48px rgba(13,15,14,0.14)',
                       overflow: 'hidden',
-                      minWidth: '120px',
-                      zIndex: 1000,
+                      minWidth: '140px',
+                      animation: 'dropdownFadeIn 0.18s var(--ease-expo)',
                     }}
                   >
                     {languages.map((lang) => (
@@ -200,67 +187,49 @@ export const Nav = memo(function Nav() {
                           gap: '8px',
                           width: '100%',
                           padding: '12px 16px',
-                          fontSize: '13px',
+                          fontSize: '0.8125rem',
                           fontWeight: currentLang.code === lang.code ? 600 : 400,
-                          color: currentLang.code === lang.code ? 'var(--text-primary)' : 'var(--text-secondary)',
-                          background: currentLang.code === lang.code ? 'var(--bg-primary)' : 'transparent',
+                          color: currentLang.code === lang.code ? 'var(--ink)' : 'var(--text-secondary)',
+                          background: currentLang.code === lang.code ? 'var(--paper-dim)' : 'transparent',
                           border: 'none',
                           cursor: 'pointer',
                           textAlign: 'left',
-                          transition: 'background 0.2s ease',
-                        }}
-                        onMouseEnter={(e) => {
-                          if (currentLang.code !== lang.code) {
-                            e.currentTarget.style.background = 'var(--bg-primary)';
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (currentLang.code !== lang.code) {
-                            e.currentTarget.style.background = 'transparent';
-                          }
                         }}
                       >
                         <span style={{ fontWeight: 600, letterSpacing: '0.05em' }}>{lang.label}</span>
-                        <span style={{ opacity: 0.7 }}>{lang.name}</span>
+                        <span style={{ opacity: 0.6 }}>{lang.name}</span>
                       </button>
                     ))}
                   </div>
                 )}
               </div>
 
-              {/* CTA - Desktop */}
               <button
-                className="desktop-cta btn-scale"
+                className="desktop-cta btn-pill"
                 onClick={() => scrollToSection('form')}
                 style={{
                   display: 'none',
-                  padding: '12px 24px',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  color: '#FFFFFF',
-                  background: 'var(--text-primary)',
+                  padding: '12px 22px',
+                  color: '#fff',
+                  background: 'var(--ink)',
                   border: 'none',
-                  borderRadius: '25px',
-                  cursor: 'pointer',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
                 }}
               >
                 {t('nav.getHelp')}
+                <ArrowUpRight size={15} />
               </button>
 
-              {/* Mobile menu button */}
               <button
                 className="mobile-menu-btn"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Menu"
                 style={{
                   display: 'flex',
                   padding: '8px',
-                  color: 'var(--text-primary)',
+                  color: 'var(--ink)',
                   background: 'transparent',
                   border: 'none',
                   cursor: 'pointer',
-                  transition: 'color 0.3s ease',
                 }}
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -270,33 +239,31 @@ export const Nav = memo(function Nav() {
         </div>
       </nav>
 
-      {/* Fullscreen Mobile Menu */}
+      {/* Fullscreen mobile menu */}
       <div
         className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}
         style={{
           position: 'fixed',
           inset: 0,
           zIndex: 99,
-          background: '#FFFFFF',
+          background: 'var(--paper)',
           display: 'flex',
           flexDirection: 'column',
           opacity: isMobileMenuOpen ? 1 : 0,
           visibility: isMobileMenuOpen ? 'visible' : 'hidden',
-          transition: 'opacity 0.3s ease, visibility 0.3s ease',
+          transition: 'opacity 0.4s var(--ease-expo), visibility 0.4s ease',
         }}
       >
-        {/* Menu Content */}
         <div
           style={{
             flex: 1,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            padding: '120px 32px 32px',
+            padding: '120px var(--pad-x) 32px',
           }}
         >
-          {/* Nav Links */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {navLinks.map((link, index) => (
               <button
                 key={link.id}
@@ -304,97 +271,68 @@ export const Nav = memo(function Nav() {
                 className="mobile-nav-item"
                 style={{
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'baseline',
                   justifyContent: 'space-between',
-                  padding: '24px 0',
-                  color: 'var(--text-primary)',
+                  padding: '20px 0',
+                  color: 'var(--ink)',
                   background: 'transparent',
                   border: 'none',
-                  borderBottom: '1px solid var(--border)',
-                  fontSize: '24px',
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontWeight: 600,
+                  borderBottom: '1px solid var(--line)',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(2.25rem, 9vw, 3.25rem)',
+                  fontWeight: 500,
+                  letterSpacing: '-0.03em',
                   cursor: 'pointer',
-                  letterSpacing: '0.02em',
-                  textTransform: 'uppercase',
                   textAlign: 'left',
                   opacity: isMobileMenuOpen ? 1 : 0,
-                  transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-                  transition: `opacity 0.4s ease ${index * 0.1}s, transform 0.4s ease ${index * 0.1}s`,
+                  transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(24px)',
+                  transition: `opacity 0.5s var(--ease-expo) ${0.1 + index * 0.08}s, transform 0.5s var(--ease-expo) ${0.1 + index * 0.08}s`,
                 }}
               >
-                {link.label}
-                <ArrowRight size={20} color="var(--text-muted)" />
+                <span style={{ display: 'flex', alignItems: 'baseline', gap: '14px' }}>
+                  <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-body)', color: 'var(--accent)', fontWeight: 600 }}>
+                    0{index + 1}
+                  </span>
+                  {link.label}
+                </span>
+                <ArrowRight size={22} color="var(--text-muted)" />
               </button>
             ))}
           </div>
 
-          {/* CTA Button */}
           <button
             onClick={() => scrollToSection('form')}
-            className="mobile-cta"
+            className="mobile-cta btn-pill"
             style={{
-              marginTop: '48px',
+              marginTop: '40px',
               padding: '20px 32px',
-              background: 'var(--text-primary)',
-              color: '#FFFFFF',
+              background: 'var(--ink)',
+              color: '#fff',
               border: 'none',
-              borderRadius: '30px',
-              fontSize: '14px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              display: 'flex',
-              alignItems: 'center',
               justifyContent: 'center',
-              gap: '12px',
               opacity: isMobileMenuOpen ? 1 : 0,
-              transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s',
+              transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.5s var(--ease-expo) 0.34s, transform 0.5s var(--ease-expo) 0.34s',
             }}
           >
             {t('nav.getHelp')}
-            <ArrowRight size={18} />
+            <ArrowUpRight size={18} />
           </button>
         </div>
 
-        {/* Bottom Info */}
-        <div
-          style={{
-            padding: '32px',
-            borderTop: '1px solid var(--border)',
-            opacity: isMobileMenuOpen ? 1 : 0,
-            transition: 'opacity 0.4s ease 0.4s',
-          }}
-        >
-          <p
-            style={{
-              fontSize: '13px',
-              color: 'var(--text-muted)',
-              textAlign: 'center',
-              lineHeight: 1.6,
-            }}
-          >
-            {t('footer.tagline', 'Professional assistance in Thailand')}
+        <div style={{ padding: 'var(--pad-x)', borderTop: '1px solid var(--line)' }}>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.6 }}>
+            {t('hero.eyebrow')}
           </p>
         </div>
       </div>
 
       <style>{`
-        @media (min-width: 768px) {
+        @media (min-width: 860px) {
           .desktop-nav { display: flex !important; }
-          .desktop-cta { display: block !important; }
+          .desktop-cta { display: inline-flex !important; }
           .mobile-menu-btn { display: none !important; }
           .mobile-menu { display: none !important; }
-        }
-
-        .mobile-nav-item:active {
-          background: var(--bg-primary);
-        }
-
-        .mobile-cta:active {
-          opacity: 0.9;
         }
       `}</style>
     </>

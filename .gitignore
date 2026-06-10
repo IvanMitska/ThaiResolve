@@ -42,3 +42,10 @@ Thumbs.db
 .cache
 .parcel-cache
 .eslintcache
+model-src/
+
+# OG image local build scaffold (machine-specific paths; output committed to public/)
+.og-build/
+
+# Local screenshot scratch scripts
+shoot*.mjs

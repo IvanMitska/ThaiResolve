@@ -3,7 +3,7 @@ import Lenis from 'lenis';
 import { Layout } from './components/layout/Layout';
 import { Hero } from './components/landing/Hero';
 import { Problems } from './components/landing/Problems';
-import { SceneStage } from './components/scene/SceneStage';
+import { Scene3D } from './components/scene/Scene3D';
 import type { ServiceType } from './types';
 
 // Lazy load below-the-fold components
@@ -52,7 +52,7 @@ function App() {
 
   return (
     <>
-      <SceneStage />
+      <Scene3D />
       <div className="film-grain" aria-hidden />
       <Layout>
         <Hero />

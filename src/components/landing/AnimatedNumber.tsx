@@ -23,11 +23,13 @@ export const AnimatedNumber = memo(function AnimatedNumber({
   const [display, setDisplay] = useState(value);
   const playedRef = useRef(false);
 
-  // Parse "100+" → number 100, suffix "+"
-  const match = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
-  const target = match ? parseFloat(match[1]) : 0;
-  const suffix = match ? match[2] : '';
-  const isInteger = match ? !match[1].includes('.') : true;
+  // Parse "100+" → "100"+suffix, or "<1ч" → prefix"<" + "1" + "ч"
+  const match = value.match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/);
+  const prefix = match ? match[1] : '';
+  const target = match ? parseFloat(match[2]) : 0;
+  const suffix = match ? match[3] : '';
+  const isInteger = match ? !match[2].includes('.') : true;
+  const hasNumber = !!match;
 
   useEffect(() => {
     if (!ref.current) return;
@@ -48,7 +50,7 @@ export const AnimatedNumber = memo(function AnimatedNumber({
             const formatted = isInteger
               ? Math.round(current).toString()
               : current.toFixed(1);
-            setDisplay(formatted + suffix);
+            setDisplay(prefix + formatted + suffix);
             if (t < 1) raf = requestAnimationFrame(tick);
           };
           raf = requestAnimationFrame(tick);
@@ -61,12 +63,12 @@ export const AnimatedNumber = memo(function AnimatedNumber({
     return () => observer.disconnect();
   }, [target, suffix, isInteger, duration, delay]);
 
-  // Initial state: zero with suffix so the layout is stable from the start
+  // Initial state: zero with prefix/suffix so the layout is stable from the start
   useEffect(() => {
     if (!playedRef.current) {
-      setDisplay('0' + suffix);
+      setDisplay(hasNumber ? prefix + '0' + suffix : value);
     }
-  }, [suffix]);
+  }, [prefix, suffix, hasNumber, value]);
 
   return <span ref={ref}>{display}</span>;
 });

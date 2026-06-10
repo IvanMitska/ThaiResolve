@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInView } from '../../hooks/useInView';
+import { SectionHeader } from '../ui/SectionHeader';
 import { steps } from '../../config/services';
 
 export const Steps = memo(function Steps() {
@@ -11,108 +12,68 @@ export const Steps = memo(function Steps() {
     <section
       id="steps"
       ref={ref}
-      style={{
-        padding: '120px 0',
-        position: 'relative',
-      }}
+      style={{ padding: 'clamp(90px, 14vh, 160px) 0', position: 'relative' }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        {/* Header - KAIF style */}
-        <div
-          className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
-          style={{ marginBottom: '80px' }}
-        >
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '16px',
-              fontSize: '12px',
-              fontWeight: 500,
-              color: 'var(--text-muted)',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '24px',
-            }}
-          >
-            <span
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--text-muted)',
-              }}
-            />
-            {t('steps.label')}
-          </span>
-          <h2
-            style={{
-              fontFamily: "'Montserrat', sans-serif",
-              fontSize: 'clamp(32px, 5vw, 56px)',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              textTransform: 'uppercase',
-              maxWidth: '600px',
-            }}
-          >
-            {t('steps.title')}
-          </h2>
-        </div>
+      <div style={{ maxWidth: 'var(--container)', margin: '0 auto', padding: '0 var(--pad-x)' }}>
+        <SectionHeader
+          num="03"
+          eyebrow={t('steps.label')}
+          title={t('steps.title')}
+          lead={t('steps.lead')}
+          visible={isVisible}
+          maxWidth={620}
+          style={{ marginBottom: 'clamp(56px, 9vh, 96px)' }}
+        />
 
-        {/* Steps grid - KAIF style */}
         <div
           className="steps-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${steps.length}, 1fr)`,
-            gap: '32px',
+            gap: 'clamp(20px, 3vw, 40px)',
           }}
         >
           {steps.map((step, index) => (
             <div
               key={index}
-              className={`animate-on-scroll ${isVisible ? 'visible' : ''}`}
+              className={`step-card animate-on-scroll ${isVisible ? 'visible' : ''}`}
               style={{
-                padding: '32px 24px',
-                background: 'rgba(255,255,255,0.88)',
-                border: '1px solid var(--border)',
-                borderRadius: '12px',
-                transitionDelay: `${index * 0.15}s`,
+                display: 'flex',
+                flexDirection: 'column',
+                paddingTop: '24px',
+                borderTop: '1px solid var(--ink)',
+                transitionDelay: `${index * 0.1}s`,
               }}
             >
-              {/* Step number - large, light weight */}
-              <div
+              <span
                 style={{
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontSize: '56px',
-                  fontWeight: 300,
-                  color: 'var(--text-primary)',
-                  lineHeight: 1,
-                  marginBottom: '20px',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(3rem, 6vw, 5rem)',
+                  fontWeight: 500,
+                  letterSpacing: '-0.04em',
+                  lineHeight: 0.9,
+                  color: 'var(--ink)',
+                  marginBottom: 'clamp(24px, 4vh, 44px)',
                 }}
               >
                 {step.number}
-              </div>
-
-              {/* Title */}
+                <span style={{ color: 'var(--accent)' }}>.</span>
+              </span>
               <h3
                 style={{
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  color: 'var(--text-primary)',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1.25rem, 1.8vw, 1.5rem)',
+                  fontWeight: 500,
+                  letterSpacing: '-0.02em',
+                  color: 'var(--ink)',
                   marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
                 }}
               >
                 {t(step.titleKey)}
               </h3>
-
-              {/* Description */}
               <p
                 style={{
-                  fontSize: '14px',
+                  fontSize: '0.9375rem',
                   color: 'var(--text-secondary)',
                   lineHeight: 1.6,
                 }}
@@ -124,16 +85,34 @@ export const Steps = memo(function Steps() {
         </div>
       </div>
 
-      {/* Responsive */}
       <style>{`
-        @media (max-width: 900px) {
-          .steps-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
+        /* Frosted paper sheet behind each step so text stays legible over the
+           3D hand. Cards over plain paper render the panel invisibly
+           (paper-on-paper), so it only "appears" where the hand is behind. */
+        .step-card { position: relative; isolation: isolate; }
+        .step-card::before {
+          content: '';
+          position: absolute;
+          inset: -2px clamp(-12px, -1.4vw, -20px) -14px;
+          border-radius: 16px;
+          background: rgba(242, 241, 236, 0.74);
+          -webkit-backdrop-filter: blur(8px) saturate(1.05);
+          backdrop-filter: blur(8px) saturate(1.05);
+          z-index: -1;
+          pointer-events: none;
         }
-        @media (max-width: 500px) {
-          .steps-grid {
-            grid-template-columns: 1fr !important;
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+          .step-card::before { background: rgba(242, 241, 236, 0.92); }
+        }
+        @media (max-width: 900px) {
+          .steps-grid { grid-template-columns: repeat(2, 1fr) !important; row-gap: 40px !important; }
+        }
+        @media (max-width: 520px) {
+          .steps-grid { grid-template-columns: 1fr !important; }
+          /* Single column sits directly over the hand — stronger veil + edge-to-edge */
+          .step-card::before {
+            inset: -2px -16px -16px;
+            background: rgba(242, 241, 236, 0.86);
           }
         }
       `}</style>

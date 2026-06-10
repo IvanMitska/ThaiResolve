@@ -6,24 +6,37 @@
     "getHelp": "Get Help"
   },
   "hero": {
-    "title": "You cam I help",
-    "titleAccent": "We'll fix it.",
-    "subtitle": "Professional support backed by a network of lawyers, mediators, and consultants",
+    "eyebrow": "Serving all of Thailand",
+    "pre": "Fraud, disputes, a legal dead end —",
+    "mega": "You come, I help",
+    "subtitle": "Professional support backed by a network of lawyers, mediators, and consultants.",
     "cta": "Get Help",
-    "badge": "Serving all of Thailand",
+    "scroll": "Scroll",
     "stats": {
-      "cases": "cases",
-      "response": "response",
+      "cases": "cases resolved",
+      "response": "average response",
       "success": "success rate"
     }
   },
+  "marquee": {
+    "items": [
+      "Fraud",
+      "Business conflicts",
+      "Money recovery",
+      "Mediation",
+      "Legal support"
+    ]
+  },
   "services": {
     "label": "What we do",
-    "title": "We solve problems",
+    "title": "We take on what's hit a wall",
+    "lead": "The two areas where foreigners in Thailand lose the most money. Pick yours — we'll assess your odds for free and propose a plan.",
+    "cardCta": "Review my case",
     "details": "Learn more",
     "fraud": {
       "title": "Fraud",
-      "subtitle": "Scams in purchases, rentals, services"
+      "subtitle": "Scams in purchases, rentals or paid services — from private deals to online schemes and crypto.",
+      "tags": ["Purchases & rentals", "Investments", "Online scams", "Crypto"]
     },
     "rental": {
       "title": "Rental Disputes",
@@ -39,12 +52,14 @@
     },
     "business": {
       "title": "Business Conflicts",
-      "subtitle": "Partners, contracts, debts"
+      "subtitle": "Disputes with partners, broken contracts and unpaid debts in Thailand.",
+      "tags": ["Partners", "Contracts", "Debts", "Founders"]
     }
   },
   "advantages": {
     "label": "Why us",
-    "title": "Our Advantages",
+    "title": "A local network, not a call center",
+    "lead": "We work where we live. We know how Thai institutions are wired — and who to call when it counts.",
     "network": {
       "title": "Partner Network",
       "description": "Licensed lawyers, mediators, translators, specialized consultants"
@@ -53,9 +68,9 @@
       "title": "System Knowledge",
       "description": "Years of experience navigating Thai procedures and institutions"
     },
-    "speed": {
-      "title": "Fast Response",
-      "description": "Reply within 1 hour, emergencies — same-day dispatch"
+    "honesty": {
+      "title": "Honest From Day One",
+      "description": "A straight assessment up front — and we tell you directly if we can't help"
     },
     "privacy": {
       "title": "Confidentiality",
@@ -64,14 +79,15 @@
   },
   "steps": {
     "label": "Process",
-    "title": "How It Works",
+    "title": "Four steps to a resolution",
+    "lead": "Transparent from the first message. No upfront fees for assessment, no surprises along the way.",
     "request": {
       "title": "Request",
       "description": "Describe your situation via form — takes 2 minutes"
     },
     "evaluation": {
       "title": "Evaluation",
-      "description": "We'll contact you within an hour, assess chances and options — free"
+      "description": "We'll review your case, assess your chances and options — free"
     },
     "strategy": {
       "title": "Strategy",
@@ -84,7 +100,9 @@
   },
   "faq": {
     "label": "Questions",
-    "title": "FAQ",
+    "title": "The short answers",
+    "subtitle": "Don't see your question? Write to us — we'll reply personally, no strings attached.",
+    "ask": "Ask a question",
     "legal": {
       "question": "Is this legal?",
       "answer": "Yes, we operate fully within the legal framework. Legal services are provided through licensed partners — Thai lawyers with valid licenses. We act as consultants and intermediaries."
@@ -92,10 +110,6 @@
     "cost": {
       "question": "How much does it cost?",
       "answer": "Initial assessment is free. After analysis, we provide exact pricing before starting work. No hidden fees or surprises."
-    },
-    "speed": {
-      "question": "How fast do you respond?",
-      "answer": "During working hours — within 1 hour. Emergency cases — 24/7, same-day dispatch."
     },
     "remote": {
       "question": "I was scammed remotely, can you help?",
@@ -113,7 +127,7 @@
   "form": {
     "label": "Request",
     "title": "Describe Your Situation",
-    "subtitle": "Fill out the form and we'll contact you within an hour",
+    "subtitle": "Fill out the form and we'll get back to you",
     "fields": {
       "name": "Name",
       "namePlaceholder": "How should we address you",
@@ -127,8 +141,6 @@
       "cityPlaceholder": "Select city",
       "description": "Situation Description",
       "descriptionPlaceholder": "Tell us what happened. More details = better assessment",
-      "files": "Attach Files",
-      "filesHint": "Up to 5 files (JPG, PNG, PDF), up to 10 MB each",
       "consent": "I agree to the processing of personal data",
       "submit": "Submit Request"
     },
@@ -200,8 +212,7 @@
   },
   "success": {
     "title": "Request Submitted",
-    "message": "We'll contact you within 1 hour",
-    "contact": "Or reach out directly:"
+    "message": "We've received your request and will get back to you"
   },
   "error": {
     "title": "Submission Error",
@@ -209,6 +220,11 @@
     "retry": "Try Again"
   },
   "footer": {
+    "eyebrow": "Ready to help",
+    "ctaLine": "Describe your situation",
+    "ctaSub": "No call centers, no waiting on hold. Tell us what happened and we'll take it from there.",
+    "ctaButton": "Fill out the form",
+    "navTitle": "Navigation",
     "disclaimer": "Service provides informational and intermediary support. Legal services are provided by licensed partners.",
     "copyright": "© 2026 ThaiResolve"
   },
