@@ -47,7 +47,24 @@ const LOW_POWER =
     window.matchMedia('(pointer: coarse)').matches ||
     (navigator.hardwareConcurrency || 8) <= 4);
 
-const GLASS_ACTIVE = LOW_POWER ? { ...GLASS, resolution: 256, samples: 4 } : GLASS;
+// On mobile the transmission buffer is small, so a rough (blurred) refraction
+// gets undersampled into a sparkly "static", and the distortion terms shimmer as
+// you scroll. Render the phone version as perfectly clear glass (roughness 0, no
+// distortion/aberration) — that removes the multi-sample blur entirely, so there
+// is nothing left to alias. The vivid gradient backdrop still reads through.
+const GLASS_ACTIVE = LOW_POWER
+  ? {
+      ...GLASS,
+      resolution: 256,
+      samples: 1,
+      roughness: 0,
+      anisotropy: 0,
+      chromaticAberration: 0,
+      distortion: 0,
+      distortionScale: 0,
+      temporalDistortion: 0,
+    }
+  : GLASS;
 
 // Gradient backdrop seen through the glass. Each stop interpolates between a
 // muted "top of page" tone and a vivid "scrolled" tone, so the gradient grows
