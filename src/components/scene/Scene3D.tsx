@@ -37,34 +37,16 @@ const GLASS = {
   samples: 6,
 } as const;
 
-// Phones / coarse-pointer / low-core devices: the transmission material is the
-// single biggest GPU cost (two buffer passes per frame). Halve its resolution
-// and trim samples so the hands hold a steady frame rate while scrolling. The
-// look is effectively identical at this size, behind frosted panels.
+// Phones / coarse-pointer / low-core devices. On mobile GPUs the transmission
+// material's refraction buffer aliases into sparkly "static" no matter how we
+// tune resolution/roughness, so on these devices we skip transmission entirely
+// and paint the hands with a solid material whose colour is a baked vertical
+// gradient (see bakeGradient). No refraction buffer → nothing to shimmer.
 const LOW_POWER =
   typeof window !== 'undefined' &&
   (window.matchMedia('(max-width: 820px)').matches ||
     window.matchMedia('(pointer: coarse)').matches ||
     (navigator.hardwareConcurrency || 8) <= 4);
-
-// On mobile the transmission buffer is small, so a rough (blurred) refraction
-// gets undersampled into a sparkly "static", and the distortion terms shimmer as
-// you scroll. Render the phone version as perfectly clear glass (roughness 0, no
-// distortion/aberration) — that removes the multi-sample blur entirely, so there
-// is nothing left to alias. The vivid gradient backdrop still reads through.
-const GLASS_ACTIVE = LOW_POWER
-  ? {
-      ...GLASS,
-      resolution: 256,
-      samples: 1,
-      roughness: 0,
-      anisotropy: 0,
-      chromaticAberration: 0,
-      distortion: 0,
-      distortionScale: 0,
-      temporalDistortion: 0,
-    }
-  : GLASS;
 
 // Gradient backdrop seen through the glass. Each stop interpolates between a
 // muted "top of page" tone and a vivid "scrolled" tone, so the gradient grows
@@ -94,6 +76,49 @@ function drawGradient(ctx: CanvasRenderingContext2D, t: number) {
   }
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 16, 256);
+}
+
+/** Sample the vivid gradient at offset o ∈ [0,1] into a linear THREE.Color. */
+function sampleVivid(o: number, out: THREE.Color) {
+  o = Math.max(0, Math.min(1, o));
+  for (let i = 1; i < GRADIENT_STOPS.length; i++) {
+    const bo = GRADIENT_STOPS[i][0];
+    if (o <= bo) {
+      const av = GRADIENT_STOPS[i - 1][2];
+      const bv = GRADIENT_STOPS[i][2];
+      const ao = GRADIENT_STOPS[i - 1][0];
+      const f = (o - ao) / (bo - ao || 1);
+      out.setRGB(
+        (av[0] + (bv[0] - av[0]) * f) / 255,
+        (av[1] + (bv[1] - av[1]) * f) / 255,
+        (av[2] + (bv[2] - av[2]) * f) / 255,
+        THREE.SRGBColorSpace
+      );
+      return;
+    }
+  }
+  const last = GRADIENT_STOPS[GRADIENT_STOPS.length - 1][2];
+  out.setRGB(last[0] / 255, last[1] / 255, last[2] / 255, THREE.SRGBColorSpace);
+}
+
+/**
+ * Bake the vertical gradient into a geometry's vertex colours so a plain solid
+ * material reproduces the glass tint with no transmission buffer (mobile path).
+ * `axis` is the long-axis index; `min`/`range` normalise position to 0→1.
+ */
+function bakeGradient(geo: THREE.BufferGeometry, axis: number, min: number, range: number) {
+  const p = geo.getAttribute('position') as THREE.BufferAttribute;
+  const colors = new Float32Array(p.count * 3);
+  const c = new THREE.Color();
+  for (let i = 0; i < p.count; i++) {
+    const v = axis === 0 ? p.getX(i) : axis === 1 ? p.getY(i) : p.getZ(i);
+    const t = (v - min) / range; // 0 bottom → 1 top
+    sampleVivid(1 - t, c); // top = light mint, bottom = deep teal
+    colors[i * 3] = c.r;
+    colors[i * 3 + 1] = c.g;
+    colors[i * 3 + 2] = c.b;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 }
 
 /**
@@ -247,6 +272,15 @@ function Hands() {
 
     merged.computeVertexNormals();
 
+    // Mobile path: bake the gradient into vertex colours for the solid material.
+    if (LOW_POWER) {
+      const aMin = box.min.getComponent(longest);
+      const aRange = box.max.getComponent(longest) - aMin || 1;
+      if (high) bakeGradient(high, longest, aMin, aRange);
+      if (low) bakeGradient(low, longest, aMin, aRange);
+      bakeGradient(merged, longest, aMin, aRange);
+    }
+
     return {
       split,
       high,
@@ -285,18 +319,27 @@ function Hands() {
       outer.current.rotation.x += (-pointer.y * 0.16 - outer.current.rotation.x) * 0.04;
     }
 
-    // Grow gradient saturation with scroll: muted near the top, ramping hard to
-    // vivid by ~55% scroll, with a snappy ease.
-    const target = Math.min(1, scrollState.p * 1.8);
-    sat.current += (target - sat.current) * 0.16;
-    if (Math.abs(sat.current - lastDrawn.current) > 0.003) {
-      drawGradient(grad.ctx, sat.current);
-      grad.texture.needsUpdate = true;
-      lastDrawn.current = sat.current;
+    // Grow gradient saturation with scroll (desktop transmission only — the
+    // mobile material uses a fixed baked gradient, so skip the canvas redraw).
+    if (!LOW_POWER) {
+      const target = Math.min(1, scrollState.p * 1.8);
+      sat.current += (target - sat.current) * 0.16;
+      if (Math.abs(sat.current - lastDrawn.current) > 0.003) {
+        drawGradient(grad.ctx, sat.current);
+        grad.texture.needsUpdate = true;
+        lastDrawn.current = sat.current;
+      }
     }
   });
 
-  const Glass = () => <MeshTransmissionMaterial {...GLASS_ACTIVE} background={grad.texture} />;
+  const Glass = () =>
+    LOW_POWER ? (
+      // Solid material tinted by the baked vertex gradient — no transmission
+      // buffer, so no sparkly aliasing. Env + lights give it a glassy sheen.
+      <meshStandardMaterial vertexColors roughness={0.38} metalness={0.08} envMapIntensity={1.2} />
+    ) : (
+      <MeshTransmissionMaterial {...GLASS} background={grad.texture} />
+    );
 
   return (
     <group ref={outer}>
