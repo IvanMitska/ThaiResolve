@@ -77,11 +77,13 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* Dark root so the rubber-band overscroll area below the (dark) footer reads
-     as a continuation of it, instead of exposing the fixed 3D canvas/hands.
-     The paper body box covers the whole document, so this only shows when you
-     pull past the page edges on touch devices. */
-  background-color: var(--ink);
+  /* Rubber-band overscroll on touch devices exposes the root (html) background.
+     A hard-split gradient paints the TOP edge paper (matches the hero) and the
+     BOTTOM edge ink (matches the dark footer), so pulling past either end reads
+     correctly instead of exposing the fixed 3D canvas/hands. The 50% seam lives
+     behind the body, which covers the whole document, so it is never visible.
+     No background-attachment: fixed — iOS Safari mishandles it. */
+  background: linear-gradient(to bottom, var(--paper) 0%, var(--paper) 50%, var(--ink) 50%, var(--ink) 100%);
   /* Suppress the bounce gap entirely where supported (Android, iOS 16+). */
   overscroll-behavior-y: none;
 }
