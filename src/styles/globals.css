@@ -77,6 +77,13 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Dark root so the rubber-band overscroll area below the (dark) footer reads
+     as a continuation of it, instead of exposing the fixed 3D canvas/hands.
+     The paper body box covers the whole document, so this only shows when you
+     pull past the page edges on touch devices. */
+  background-color: var(--ink);
+  /* Suppress the bounce gap entirely where supported (Android, iOS 16+). */
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -87,6 +94,7 @@ body {
   font-weight: 400;
   letter-spacing: -0.011em;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
