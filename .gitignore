@@ -49,3 +49,6 @@ model-src/
 
 # Local screenshot scratch scripts
 shoot*.mjs
+
+# Favicon local build scaffold
+.icon-build/
