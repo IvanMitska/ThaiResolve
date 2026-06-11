@@ -6,8 +6,8 @@ import en from './en.json';
 import th from './th.json';
 
 const savedLang = typeof window !== 'undefined'
-  ? localStorage.getItem('lang') || 'ru'
-  : 'ru';
+  ? localStorage.getItem('lang') || 'en'
+  : 'en';
 
 i18n
   .use(initReactI18next)
@@ -18,7 +18,7 @@ i18n
       th: { translation: th },
     },
     lng: savedLang,
-    fallbackLng: 'ru',
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },

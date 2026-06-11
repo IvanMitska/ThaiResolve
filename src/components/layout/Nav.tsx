@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Menu, X, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
 
 const languages = [
-  { code: 'ru', label: 'RU', name: 'Русский' },
   { code: 'en', label: 'EN', name: 'English' },
+  { code: 'ru', label: 'RU', name: 'Русский' },
   { code: 'th', label: 'TH', name: 'ไทย' },
 ];
 
