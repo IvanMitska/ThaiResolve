@@ -197,6 +197,8 @@ function Hands() {
   const armHigh = useRef<THREE.Group>(null);
   const armLow = useRef<THREE.Group>(null);
   const connectEased = useRef(0); // eased hero-scroll progress
+  // Shared uniform driving the mobile material's scroll-saturation (0 muted → 1 vivid).
+  const satUniform = useRef({ value: 0.2 });
 
   // Canvas-backed gradient texture that we repaint as scroll progress changes.
   const grad = useMemo(() => {
@@ -319,24 +321,42 @@ function Hands() {
       outer.current.rotation.x += (-pointer.y * 0.16 - outer.current.rotation.x) * 0.04;
     }
 
-    // Grow gradient saturation with scroll (desktop transmission only — the
-    // mobile material uses a fixed baked gradient, so skip the canvas redraw).
-    if (!LOW_POWER) {
-      const target = Math.min(1, scrollState.p * 1.8);
-      sat.current += (target - sat.current) * 0.16;
-      if (Math.abs(sat.current - lastDrawn.current) > 0.003) {
-        drawGradient(grad.ctx, sat.current);
-        grad.texture.needsUpdate = true;
-        lastDrawn.current = sat.current;
-      }
+    // Grow gradient saturation with scroll: muted near the top, ramping to vivid
+    // by ~55% scroll. Desktop repaints the refraction backdrop; mobile drives a
+    // shader uniform on the solid material.
+    const target = Math.min(1, scrollState.p * 1.8);
+    sat.current += (target - sat.current) * 0.16;
+    if (LOW_POWER) {
+      satUniform.current.value = sat.current;
+    } else if (Math.abs(sat.current - lastDrawn.current) > 0.003) {
+      drawGradient(grad.ctx, sat.current);
+      grad.texture.needsUpdate = true;
+      lastDrawn.current = sat.current;
     }
   });
 
   const Glass = () =>
     LOW_POWER ? (
       // Solid material tinted by the baked vertex gradient — no transmission
-      // buffer, so no sparkly aliasing. Env + lights give it a glassy sheen.
-      <meshStandardMaterial vertexColors roughness={0.38} metalness={0.08} envMapIntensity={1.2} />
+      // buffer, so no sparkly aliasing. A uSat uniform fades the colour between
+      // muted (top of page) and vivid (scrolled), mirroring the desktop glass.
+      <meshStandardMaterial
+        vertexColors
+        roughness={0.38}
+        metalness={0.08}
+        envMapIntensity={1.2}
+        onBeforeCompile={(shader) => {
+          shader.uniforms.uSat = satUniform.current;
+          shader.fragmentShader = shader.fragmentShader
+            .replace('#include <common>', 'uniform float uSat;\n#include <common>')
+            .replace(
+              '#include <color_fragment>',
+              `#include <color_fragment>
+               vec3 _paper = vec3(0.86, 0.85, 0.81);
+               diffuseColor.rgb = mix(mix(diffuseColor.rgb, _paper, 0.6), diffuseColor.rgb, clamp(uSat, 0.0, 1.0));`
+            );
+        }}
+      />
     ) : (
       <MeshTransmissionMaterial {...GLASS} background={grad.texture} />
     );
