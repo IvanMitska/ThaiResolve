@@ -37,6 +37,18 @@ const GLASS = {
   samples: 6,
 } as const;
 
+// Phones / coarse-pointer / low-core devices: the transmission material is the
+// single biggest GPU cost (two buffer passes per frame). Halve its resolution
+// and trim samples so the hands hold a steady frame rate while scrolling. The
+// look is effectively identical at this size, behind frosted panels.
+const LOW_POWER =
+  typeof window !== 'undefined' &&
+  (window.matchMedia('(max-width: 820px)').matches ||
+    window.matchMedia('(pointer: coarse)').matches ||
+    (navigator.hardwareConcurrency || 8) <= 4);
+
+const GLASS_ACTIVE = LOW_POWER ? { ...GLASS, resolution: 256, samples: 4 } : GLASS;
+
 // Gradient backdrop seen through the glass. Each stop interpolates between a
 // muted "top of page" tone and a vivid "scrolled" tone, so the gradient grows
 // more saturated as the visitor scrolls down.
@@ -267,7 +279,7 @@ function Hands() {
     }
   });
 
-  const Glass = () => <MeshTransmissionMaterial {...GLASS} background={grad.texture} />;
+  const Glass = () => <MeshTransmissionMaterial {...GLASS_ACTIVE} background={grad.texture} />;
 
   return (
     <group ref={outer}>
@@ -321,28 +333,53 @@ export function Scene3D() {
     };
     window.addEventListener('mousemove', onMove, { passive: true });
 
-    const onScroll = () => {
+    // Layout-dependent values are read ONCE here (and on resize / page-height
+    // changes), never inside the scroll handler. Reading scrollHeight or
+    // getBoundingClientRect on every scroll event forces a synchronous reflow
+    // on the main thread — the prime cause of the hands juddering while
+    // scrolling on phones. The scroll handler below only touches scrollY.
+    let maxScroll = 1;
+    let connectEnd = window.innerHeight * 4;
+    const measure = () => {
       const vh = window.innerHeight;
-      const max = document.documentElement.scrollHeight - vh;
-      scrollState.p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-
-      // Hands reach toward each other across the whole upper page and finish
-      // connecting right as the request form comes into view.
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
       const form = document.getElementById('form');
-      let connectEnd = vh * 4;
-      if (form) {
-        const formTop = form.getBoundingClientRect().top + window.scrollY;
-        connectEnd = Math.max(vh, formTop - vh * 0.45);
-      }
-      scrollState.connect = Math.min(1, Math.max(0, window.scrollY / connectEnd));
+      connectEnd = form
+        ? Math.max(vh, form.getBoundingClientRect().top + window.scrollY - vh * 0.45)
+        : vh * 4;
+    };
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      scrollState.p = Math.min(1, Math.max(0, y / maxScroll));
+      scrollState.connect = Math.min(1, Math.max(0, y / connectEnd));
     };
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
+
+    // Lazy-loaded sections change the page height after mount, which shifts the
+    // form's position — re-measure when the body resizes (coalesced to a frame).
+    let pending = 0;
+    const ro = new ResizeObserver(() => {
+      if (pending) return;
+      pending = requestAnimationFrame(() => {
+        pending = 0;
+        measure();
+        onScroll();
+      });
+    });
+    ro.observe(document.body);
+
+    measure();
     onScroll();
 
     return () => {
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+      ro.disconnect();
+      if (pending) cancelAnimationFrame(pending);
     };
   }, []);
 
@@ -353,9 +390,13 @@ export function Scene3D() {
     >
       <Canvas
         camera={{ position: [0, 0, 9], fov: 34 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={LOW_POWER ? [1, 1.25] : [1, 1.5]}
+        gl={{ antialias: !LOW_POWER, alpha: true, powerPreference: 'high-performance' }}
         frameloop={active && !reduced ? 'always' : 'demand'}
+        // Debounce resize so the mobile address-bar show/hide (which changes the
+        // viewport height as you scroll) doesn't rebuild the transmission
+        // buffers on every frame — another source of scroll judder on phones.
+        resize={{ debounce: 200 }}
         style={{ background: 'transparent' }}
       >
         <ambientLight intensity={0.85} />

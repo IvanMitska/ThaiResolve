@@ -3,8 +3,11 @@ import Lenis from 'lenis';
 import { Layout } from './components/layout/Layout';
 import { Hero } from './components/landing/Hero';
 import { Problems } from './components/landing/Problems';
-import { Scene3D } from './components/scene/Scene3D';
 import type { ServiceType } from './types';
+
+// Decorative WebGL background — defer it so the ~1.2 MB three.js bundle and the
+// hands model don't block first paint. It fades in a beat after content.
+const Scene3D = lazy(() => import('./components/scene/Scene3D').then(m => ({ default: m.Scene3D })));
 
 // Lazy load below-the-fold components
 const Advantages = lazy(() => import('./components/landing/Advantages').then(m => ({ default: m.Advantages })));
@@ -52,7 +55,9 @@ function App() {
 
   return (
     <>
-      <Scene3D />
+      <Suspense fallback={null}>
+        <Scene3D />
+      </Suspense>
       <div className="film-grain" aria-hidden />
       <Layout>
         <Hero />

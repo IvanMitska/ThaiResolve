@@ -9,6 +9,19 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            // 3D libs (three + react-three-*) — heavy and only used by the
+            // lazy-loaded Scene3D. Must be matched BEFORE the generic `react`
+            // rule below, otherwise @react-three/* leaks into the eager vendor
+            // chunk. Kept separate so it loads only with the scene, not on
+            // first paint.
+            if (
+              id.includes('three') ||
+              id.includes('@react-three') ||
+              id.includes('@monogrid/gainmap-js') ||
+              id.includes('postprocessing')
+            ) {
+              return 'three';
+            }
             // React core
             if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
               return 'vendor';
